@@ -1,0 +1,948 @@
+{% extends "base.html" %}
+
+{% block title %}User Management | SHSD Link{% endblock %}
+
+{% block content %}
+
+<!-- =========================================================
+     SHSD LINK — ADMIN USER MANAGEMENT
+     PART 14
+     ========================================================= -->
+
+<div class="container py-4">
+
+    <!-- =====================================================
+         PAGE HEADER
+         ===================================================== -->
+
+    <div class="shsd-page-hero fade-up mb-4">
+
+        <div class="row align-items-center">
+
+            <div class="col-md-8">
+
+                <div class="d-flex align-items-center gap-3">
+
+                    <div
+                        class="login-logo"
+                        style="
+                            width:58px;
+                            height:58px;
+                            min-width:58px;
+                            margin:0;
+                        "
+                    >
+
+                        <i class="bi bi-people-fill"></i>
+
+                    </div>
+
+                    <div>
+
+                        <h1 class="mb-1">
+                            User Management
+                        </h1>
+
+                        <p class="mb-0">
+                            Student ও Teacher Account পরিচালনা করুন।
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="col-md-4 mt-3 mt-md-0">
+
+                <div
+                    class="
+                        d-flex
+                        justify-content-md-end
+                    "
+                >
+
+                    <span
+                        class="
+                            shsd-badge
+                            shsd-badge-danger
+                        "
+                    >
+
+                        <i class="bi bi-shield-lock-fill"></i>
+
+                        ADMIN ONLY
+
+                    </span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- =====================================================
+         FLASH MESSAGE
+         ===================================================== -->
+
+    {% with messages =
+        get_flashed_messages(with_categories=true)
+    %}
+
+        {% if messages %}
+
+            {% for category, message in messages %}
+
+                <div
+                    class="
+                        alert
+                        shsd-alert
+                        {% if category == 'error' %}
+                            alert-danger
+                        {% elif category == 'success' %}
+                            alert-success
+                        {% elif category == 'warning' %}
+                            alert-warning
+                        {% else %}
+                            alert-info
+                        {% endif %}
+                        alert-dismissible
+                        fade
+                        show
+                    "
+                    role="alert"
+                >
+
+                    {% if category == "success" %}
+
+                        <i class="bi bi-check-circle-fill"></i>
+
+                    {% elif category == "error" %}
+
+                        <i class="bi bi-exclamation-triangle-fill"></i>
+
+                    {% else %}
+
+                        <i class="bi bi-info-circle-fill"></i>
+
+                    {% endif %}
+
+                    <span>
+                        {{ message }}
+                    </span>
+
+                    <button
+                        type="button"
+                        class="btn-close"
+                        data-bs-dismiss="alert"
+                        aria-label="Close"
+                    ></button>
+
+                </div>
+
+            {% endfor %}
+
+        {% endif %}
+
+    {% endwith %}
+
+
+    <!-- =====================================================
+         USER STATISTICS
+         ===================================================== -->
+
+    <div class="row g-3 mb-4">
+
+        <!-- STUDENTS -->
+
+        <div class="col-6 col-lg-4">
+
+            <div class="shsd-stat-card fade-up">
+
+                <div class="shsd-stat-icon">
+
+                    <i class="bi bi-mortarboard-fill"></i>
+
+                </div>
+
+                <h3>
+
+                    {{ student_count or 0 }}
+
+                </h3>
+
+                <p>
+                    Total Students
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <!-- TEACHERS -->
+
+        <div class="col-6 col-lg-4">
+
+            <div class="shsd-stat-card fade-up">
+
+                <div class="shsd-stat-icon">
+
+                    <i class="bi bi-person-workspace"></i>
+
+                </div>
+
+                <h3>
+
+                    {{ teacher_count or 0 }}
+
+                </h3>
+
+                <p>
+                    Total Teachers
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <!-- TOTAL -->
+
+        <div class="col-12 col-lg-4">
+
+            <div class="shsd-stat-card fade-up">
+
+                <div class="shsd-stat-icon">
+
+                    <i class="bi bi-people-fill"></i>
+
+                </div>
+
+                <h3>
+
+                    {{ total_users or 0 }}
+
+                </h3>
+
+                <p>
+                    Total Users
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- =====================================================
+         ADD USER
+         ===================================================== -->
+
+    <div class="shsd-card fade-up mb-4">
+
+        <div class="shsd-card-header">
+
+            <div
+                class="
+                    d-flex
+                    align-items-center
+                    justify-content-between
+                "
+            >
+
+                <div>
+
+                    <h5 class="mb-1">
+
+                        <i
+                            class="
+                                bi
+                                bi-person-plus-fill
+                                me-2
+                            "
+                            style="color:#39d9ff;"
+                        ></i>
+
+                        Add New User
+
+                    </h5>
+
+                    <small style="color:#667a91;">
+
+                        নতুন Student অথবা Teacher Account তৈরি করুন।
+
+                    </small>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="shsd-card-body">
+
+            <form
+                method="POST"
+                action="{{ url_for('admin_users') }}"
+                id="addUserForm"
+            >
+
+                <input
+                    type="hidden"
+                    name="action"
+                    value="add_user"
+                >
+
+
+                <div class="row g-3">
+
+                    <!-- NAME -->
+
+                    <div class="col-md-6">
+
+                        <label
+                            for="newName"
+                            class="shsd-form-label"
+                        >
+                            Full Name
+                        </label>
+
+                        <input
+                            type="text"
+                            id="newName"
+                            name="name"
+                            class="form-control shsd-input"
+                            placeholder="যেমন: Md Tuhin"
+                            maxlength="100"
+                            required
+                        >
+
+                    </div>
+
+
+                    <!-- USERNAME -->
+
+                    <div class="col-md-6">
+
+                        <label
+                            for="newUsername"
+                            class="shsd-form-label"
+                        >
+                            Username
+                        </label>
+
+                        <input
+                            type="text"
+                            id="newUsername"
+                            name="username"
+                            class="form-control shsd-input"
+                            placeholder="যেমন: tuhin123"
+                            maxlength="50"
+                            required
+                        >
+
+                    </div>
+
+
+                    <!-- PHONE -->
+
+                    <div class="col-md-6">
+
+                        <label
+                            for="newPhone"
+                            class="shsd-form-label"
+                        >
+                            Mobile Number
+                        </label>
+
+                        <input
+                            type="tel"
+                            id="newPhone"
+                            name="phone"
+                            class="form-control shsd-input"
+                            placeholder="01XXXXXXXXX"
+                            maxlength="20"
+                            required
+                        >
+
+                    </div>
+
+
+                    <!-- PASSWORD -->
+
+                    <div class="col-md-6">
+
+                        <label
+                            for="newPassword"
+                            class="shsd-form-label"
+                        >
+                            Password
+                        </label>
+
+                        <input
+                            type="password"
+                            id="newPassword"
+                            name="password"
+                            class="form-control shsd-input"
+                            placeholder="নতুন Password"
+                            minlength="6"
+                            maxlength="100"
+                            required
+                        >
+
+                    </div>
+
+
+                    <!-- ROLE -->
+
+                    <div class="col-md-6">
+
+                        <label
+                            for="newRole"
+                            class="shsd-form-label"
+                        >
+                            Account Role
+                        </label>
+
+                        <select
+                            id="newRole"
+                            name="role"
+                            class="form-select shsd-input"
+                            required
+                        >
+
+                            <option
+                                value="student"
+                                selected
+                            >
+                                Student
+                            </option>
+
+                            <option value="teacher">
+                                Teacher
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <!-- SUBMIT -->
+
+                    <div
+                        class="
+                            col-md-6
+                            d-flex
+                            align-items-end
+                        "
+                    >
+
+                        <button
+                            type="submit"
+                            class="
+                                shsd-btn
+                                shsd-btn-primary
+                                w-100
+                            "
+                            id="addUserButton"
+                        >
+
+                            <i
+                                class="
+                                    bi
+                                    bi-person-plus-fill
+                                "
+                            ></i>
+
+                            Create Account
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+
+    <!-- =====================================================
+         USER LIST
+         ===================================================== -->
+
+    <div class="shsd-card fade-up">
+
+        <div class="shsd-card-header">
+
+            <div
+                class="
+                    d-flex
+                    align-items-center
+                    justify-content-between
+                "
+            >
+
+                <div>
+
+                    <h5 class="mb-1">
+
+                        <i
+                            class="
+                                bi
+                                bi-list-ul
+                                me-2
+                            "
+                            style="color:#39d9ff;"
+                        ></i>
+
+                        All Users
+
+                    </h5>
+
+                    <small style="color:#667a91;">
+
+                        বর্তমানে Database-এ থাকা User-দের তালিকা।
+
+                    </small>
+
+                </div>
+
+
+                <span
+                    class="
+                        shsd-badge
+                        shsd-badge-info
+                    "
+                >
+
+                    {{ total_users or 0 }} Users
+
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <div class="shsd-card-body p-0">
+
+            {% if users %}
+
+                <div class="table-responsive">
+
+                    <table
+                        class="
+                            table
+                            shsd-table
+                            mb-0
+                        "
+                    >
+
+                        <thead>
+
+                            <tr>
+
+                                <th>
+                                    User
+                                </th>
+
+                                <th>
+                                    Username
+                                </th>
+
+                                <th>
+                                    Mobile
+                                </th>
+
+                                <th>
+                                    Role
+                                </th>
+
+                                <th>
+                                    Status
+                                </th>
+
+                            </tr>
+
+                        </thead>
+
+
+                        <tbody>
+
+                            {% for user in users %}
+
+                                <tr>
+
+                                    <!-- USER -->
+
+                                    <td>
+
+                                        <div
+                                            class="
+                                                d-flex
+                                                align-items-center
+                                                gap-2
+                                            "
+                                        >
+
+                                            <div
+                                                class="student-avatar"
+                                            >
+
+                                                {% if user.role ==
+                                                      "admin" %}
+
+                                                    <i
+                                                        class="
+                                                            bi
+                                                            bi-shield-lock-fill
+                                                        "
+                                                    ></i>
+
+                                                {% elif
+                                                      user.role ==
+                                                      "teacher" %}
+
+                                                    <i
+                                                        class="
+                                                            bi
+                                                            bi-person-workspace
+                                                        "
+                                                    ></i>
+
+                                                {% else %}
+
+                                                    <i
+                                                        class="
+                                                            bi
+                                                            bi-mortarboard-fill
+                                                        "
+                                                    ></i>
+
+                                                {% endif %}
+
+                                            </div>
+
+
+                                            <div>
+
+                                                <strong
+                                                    style="
+                                                        color:white;
+                                                    "
+                                                >
+
+                                                    {{ user.name or
+                                                       user.username }}
+
+                                                </strong>
+
+                                            </div>
+
+                                        </div>
+
+                                    </td>
+
+
+                                    <!-- USERNAME -->
+
+                                    <td>
+
+                                        @{{ user.username }}
+
+                                    </td>
+
+
+                                    <!-- PHONE -->
+
+                                    <td>
+
+                                        {% if user.phone %}
+
+                                            {{ user.phone }}
+
+                                        {% else %}
+
+                                            —
+
+                                        {% endif %}
+
+                                    </td>
+
+
+                                    <!-- ROLE -->
+
+                                    <td>
+
+                                        {% if user.role == "admin" %}
+
+                                            <span
+                                                class="
+                                                    shsd-badge
+                                                    shsd-badge-danger
+                                                "
+                                            >
+
+                                                ADMIN
+
+                                            </span>
+
+                                        {% elif
+                                              user.role ==
+                                              "teacher" %}
+
+                                            <span
+                                                class="
+                                                    shsd-badge
+                                                    shsd-badge-info
+                                                "
+                                            >
+
+                                                TEACHER
+
+                                            </span>
+
+                                        {% else %}
+
+                                            <span
+                                                class="
+                                                    shsd-badge
+                                                    shsd-badge-success
+                                                "
+                                            >
+
+                                                STUDENT
+
+                                            </span>
+
+                                        {% endif %}
+
+                                    </td>
+
+
+                                    <!-- STATUS -->
+
+                                    <td>
+
+                                        {% if user.is_active %}
+
+                                            <span
+                                                class="
+                                                    shsd-badge
+                                                    shsd-badge-success
+                                                "
+                                            >
+
+                                                <i
+                                                    class="
+                                                        bi
+                                                        bi-check-circle-fill
+                                                    "
+                                                ></i>
+
+                                                Active
+
+                                            </span>
+
+                                        {% else %}
+
+                                            <span
+                                                class="
+                                                    shsd-badge
+                                                    shsd-badge-danger
+                                                "
+                                            >
+
+                                                Inactive
+
+                                            </span>
+
+                                        {% endif %}
+
+                                    </td>
+
+                                </tr>
+
+                            {% endfor %}
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            {% else %}
+
+                <!-- =========================================
+                     EMPTY STATE
+                     ========================================= -->
+
+                <div class="shsd-empty">
+
+                    <div class="shsd-empty-icon">
+
+                        <i class="bi bi-people"></i>
+
+                    </div>
+
+                    <h4>
+                        কোনো User পাওয়া যায়নি।
+                    </h4>
+
+                    <p>
+                        উপরের Form ব্যবহার করে প্রথম User তৈরি করুন।
+                    </p>
+
+                </div>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+
+    <!-- =====================================================
+         SECURITY NOTE
+         ===================================================== -->
+
+    <div class="shsd-card mt-4 fade-up">
+
+        <div class="shsd-card-body">
+
+            <div
+                class="
+                    d-flex
+                    align-items-start
+                    gap-3
+                "
+            >
+
+                <div class="section-title-icon">
+
+                    <i class="bi bi-shield-check"></i>
+
+                </div>
+
+
+                <div>
+
+                    <h6>
+                        Security Notice
+                    </h6>
+
+                    <p
+                        class="mb-0"
+                        style="
+                            color:#7f91a7;
+                            font-size:12px;
+                            line-height:1.7;
+                        "
+                    >
+
+                        Password Database-এ সরাসরি plain text হিসেবে
+                        রাখা হবে না। Backend অংশে password hash করে
+                        নিরাপদভাবে SQLite-এ সংরক্ষণ করা হবে।
+
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}
+
+
+{% block extra_js %}
+
+<script>
+
+    /*
+     * নতুন User তৈরি করার সময় button-এ
+     * loading animation দেখানো হচ্ছে।
+     */
+
+    document.addEventListener(
+        "DOMContentLoaded",
+        function () {
+
+            const form =
+                document.getElementById(
+                    "addUserForm"
+                );
+
+
+            const button =
+                document.getElementById(
+                    "addUserButton"
+                );
+
+
+            if (!form || !button) {
+
+                return;
+
+            }
+
+
+            form.addEventListener(
+                "submit",
+                function () {
+
+                    /*
+                     * Browser validation-এর জন্য
+                     * form valid না হলে কিছু করা হবে না।
+                     */
+
+                    if (
+                        !form.checkValidity()
+                    ) {
+
+                        return;
+
+                    }
+
+
+                    button.disabled = true;
+
+
+                    button.innerHTML = `
+
+                        <span
+                            class="
+                                spinner-border
+                                spinner-border-sm
+                                me-2
+                            "
+                            role="status"
+                            aria-hidden="true"
+                        ></span>
+
+                        Account তৈরি হচ্ছে...
+
+                    `;
+
+                }
+            );
+
+        }
+    );
+
+</script>
+
+{% endblock %}
