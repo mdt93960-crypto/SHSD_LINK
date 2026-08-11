@@ -1,0 +1,1111 @@
+{% extends "base.html" %}
+
+{% block title %}Admin Broadcast | SHSD Link{% endblock %}
+
+
+{% block content %}
+
+<!-- =========================================================
+     SHSD LINK — ADMIN BROADCAST PANEL
+     PART 13
+     ========================================================= -->
+
+<div class="container py-4">
+
+    <!-- =====================================================
+         PAGE HEADER
+         ===================================================== -->
+
+    <div class="shsd-page-hero fade-up mb-4">
+
+        <div class="row align-items-center">
+
+            <div class="col-md-8">
+
+                <div class="d-flex align-items-center gap-3">
+
+                    <div
+                        class="login-logo"
+                        style="
+                            width:58px;
+                            height:58px;
+                            min-width:58px;
+                            margin:0;
+                        "
+                    >
+
+                        <i class="bi bi-broadcast-pin"></i>
+
+                    </div>
+
+
+                    <div>
+
+                        <h1 class="mb-1">
+
+                            Admin Broadcast
+
+                        </h1>
+
+
+                        <p class="mb-0">
+
+                            সকল Student-এর কাছে SMS পাঠান।
+
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- =============================================
+                 ADMIN BADGE
+                 ============================================= -->
+
+            <div class="col-md-4 mt-3 mt-md-0">
+
+                <div
+                    class="d-flex
+                           justify-content-md-end"
+                >
+
+                    <span
+                        class="shsd-badge
+                               shsd-badge-danger"
+                    >
+
+                        <i class="bi bi-shield-lock-fill"></i>
+
+                        ADMIN ONLY
+
+                    </span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- =====================================================
+         FLASH MESSAGES
+         ===================================================== -->
+
+    <div class="shsd-alert-container">
+
+        {% with messages =
+            get_flashed_messages(with_categories=true)
+        %}
+
+            {% if messages %}
+
+                {% for category, message in messages %}
+
+                    <div
+                        class="
+                            alert
+                            shsd-alert
+                            {% if category == 'error' %}
+                                alert-danger
+                            {% elif category == 'success' %}
+                                alert-success
+                            {% elif category == 'warning' %}
+                                alert-warning
+                            {% else %}
+                                alert-info
+                            {% endif %}
+                            alert-dismissible
+                            fade
+                            show
+                        "
+                        role="alert"
+                    >
+
+                        {% if category == "success" %}
+
+                            <i class="bi bi-check-circle-fill"></i>
+
+                        {% elif category == "error" %}
+
+                            <i
+                                class="
+                                    bi
+                                    bi-exclamation-triangle-fill
+                                "
+                            ></i>
+
+                        {% elif category == "warning" %}
+
+                            <i
+                                class="
+                                    bi
+                                    bi-exclamation-circle-fill
+                                "
+                            ></i>
+
+                        {% else %}
+
+                            <i class="bi bi-info-circle-fill"></i>
+
+                        {% endif %}
+
+
+                        <span>
+
+                            {{ message }}
+
+                        </span>
+
+
+                        <button
+                            type="button"
+                            class="btn-close"
+                            data-bs-dismiss="alert"
+                            aria-label="Close"
+                        ></button>
+
+                    </div>
+
+                {% endfor %}
+
+            {% endif %}
+
+        {% endwith %}
+
+    </div>
+
+
+    <!-- =====================================================
+         MAIN BROADCAST AREA
+         ===================================================== -->
+
+    <div class="row g-4">
+
+
+        <!-- =================================================
+             SMS COMPOSER
+             ================================================= -->
+
+        <div class="col-lg-8">
+
+            <div
+                class="shsd-card
+                       fade-up"
+            >
+
+                <div class="shsd-card-header">
+
+                    <div
+                        class="d-flex
+                               align-items-center
+                               justify-content-between"
+                    >
+
+                        <div>
+
+                            <h5 class="mb-1">
+
+                                <i
+                                    class="
+                                        bi
+                                        bi-chat-square-text-fill
+                                        me-2
+                                    "
+                                    style="
+                                        color:#39d9ff;
+                                    "
+                                ></i>
+
+                                Compose SMS
+
+                            </h5>
+
+
+                            <small
+                                style="
+                                    color:#667a91;
+                                "
+                            >
+
+                                সকল Student-এর মোবাইলে
+                                একই message যাবে।
+
+                            </small>
+
+                        </div>
+
+
+                        <span
+                            class="
+                                shsd-badge
+                                shsd-badge-danger
+                            "
+                        >
+
+                            SMS
+
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <div class="shsd-card-body">
+
+                    <!-- =====================================
+                         SMS FORM
+                         ===================================== -->
+
+                    <form
+                        method="POST"
+                        action="{{ url_for('admin_broadcast') }}"
+                        id="broadcastForm"
+                        data-confirm="আপনি কি সকল Student-এর মোবাইলে এই SMS পাঠাতে চান?"
+                    >
+
+                        <!-- =================================
+                             MESSAGE
+                             ================================= -->
+
+                        <div class="mb-3">
+
+                            <label
+                                for="smsMessage"
+                                class="shsd-form-label"
+                            >
+
+                                SMS Message
+
+                            </label>
+
+
+                            <textarea
+                                id="smsMessage"
+                                name="message"
+                                class="form-control shsd-input"
+                                rows="8"
+                                maxlength="1000"
+                                placeholder="এখানে SMS লিখুন..."
+                                required
+                            ></textarea>
+
+
+                            <!-- Character counter -->
+
+                            <div
+                                class="
+                                    d-flex
+                                    justify-content-between
+                                    mt-2
+                                "
+                            >
+
+                                <small
+                                    style="
+                                        color:#667a91;
+                                    "
+                                >
+
+                                    সর্বোচ্চ ১০০০ অক্ষর
+
+                                </small>
+
+
+                                <small
+                                    id="smsCounter"
+                                    style="
+                                        color:#8fa0b5;
+                                    "
+                                >
+
+                                    0/1000
+
+                                </small>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- =================================
+                             WARNING
+                             ================================= -->
+
+                        <div
+                            class="
+                                alert
+                                alert-warning
+                                d-flex
+                                align-items-start
+                                gap-2
+                            "
+                            style="
+                                background:
+                                    rgba(255,200,87,.06);
+                                border:
+                                    1px solid
+                                    rgba(255,200,87,.15);
+                                color:#d9c48a;
+                            "
+                        >
+
+                            <i
+                                class="
+                                    bi
+                                    bi-exclamation-triangle-fill
+                                "
+                            ></i>
+
+
+                            <div>
+
+                                <strong>
+                                    সতর্কতা
+                                </strong>
+
+                                <br>
+
+                                Send SMS চাপার পরে
+                                message সকল Student-এর
+                                registered mobile number-এ
+                                পাঠানোর জন্য queue করা হবে।
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- =================================
+                             SEND BUTTON
+                             ================================= -->
+
+                        <button
+                            type="submit"
+                            class="
+                                shsd-btn
+                                shsd-btn-primary
+                                w-100
+                            "
+                            id="sendSmsButton"
+                        >
+
+                            <i
+                                class="
+                                    bi
+                                    bi-send-fill
+                                "
+                            ></i>
+
+                            Send SMS to All Students
+
+                        </button>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- =================================================
+             BROADCAST INFORMATION
+             ================================================= -->
+
+        <div class="col-lg-4">
+
+
+            <!-- =============================================
+                 SECURITY
+                 ============================================= -->
+
+            <div
+                class="
+                    shsd-card
+                    fade-up
+                    mb-4
+                "
+            >
+
+                <div class="shsd-card-body">
+
+                    <div
+                        class="
+                            d-flex
+                            align-items-start
+                            gap-3
+                        "
+                    >
+
+                        <div class="section-title-icon">
+
+                            <i
+                                class="
+                                    bi
+                                    bi-shield-lock-fill
+                                "
+                            ></i>
+
+                        </div>
+
+
+                        <div>
+
+                            <h6>
+
+                                Admin Protected
+
+                            </h6>
+
+
+                            <p
+                                class="mb-0"
+                                style="
+                                    color:#7f91a7;
+                                    font-size:12px;
+                                    line-height:1.7;
+                                "
+                            >
+
+                                এই panel শুধুমাত্র Admin
+                                role-এর জন্য।
+
+                                অন্য কোনো user এখানে
+                                SMS broadcast করতে পারবে না।
+
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- =============================================
+                 SMS FLOW
+                 ============================================= -->
+
+            <div
+                class="
+                    shsd-card
+                    fade-up
+                    mb-4
+                "
+            >
+
+                <div class="shsd-card-header">
+
+                    <h5 class="mb-0">
+
+                        <i
+                            class="
+                                bi
+                                bi-diagram-3-fill
+                                me-2
+                            "
+                            style="
+                                color:#39d9ff;
+                            "
+                        ></i>
+
+                        SMS Flow
+
+                    </h5>
+
+                </div>
+
+
+                <div class="shsd-card-body">
+
+
+                    <!-- STEP 1 -->
+
+                    <div
+                        class="
+                            d-flex
+                            gap-3
+                            mb-4
+                        "
+                    >
+
+                        <div
+                            class="action-card-icon"
+                            style="
+                                min-width:42px;
+                                width:42px;
+                                height:42px;
+                            "
+                        >
+
+                            <i class="bi bi-pencil-fill"></i>
+
+                        </div>
+
+
+                        <div>
+
+                            <strong>
+
+                                ১. Message লিখুন
+
+                            </strong>
+
+
+                            <p
+                                class="mb-0 mt-1"
+                                style="
+                                    color:#718399;
+                                    font-size:12px;
+                                "
+                            >
+
+                                আপনার SMS message লিখুন।
+
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- STEP 2 -->
+
+                    <div
+                        class="
+                            d-flex
+                            gap-3
+                            mb-4
+                        "
+                    >
+
+                        <div
+                            class="action-card-icon"
+                            style="
+                                min-width:42px;
+                                width:42px;
+                                height:42px;
+                            "
+                        >
+
+                            <i class="bi bi-people-fill"></i>
+
+                        </div>
+
+
+                        <div>
+
+                            <strong>
+
+                                ২. Student নির্বাচন
+
+                            </strong>
+
+
+                            <p
+                                class="mb-0 mt-1"
+                                style="
+                                    color:#718399;
+                                    font-size:12px;
+                                "
+                            >
+
+                                Database থেকে
+                                Student-এর mobile number
+                                নেওয়া হবে।
+
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- STEP 3 -->
+
+                    <div
+                        class="
+                            d-flex
+                            gap-3
+                        "
+                    >
+
+                        <div
+                            class="action-card-icon"
+                            style="
+                                min-width:42px;
+                                width:42px;
+                                height:42px;
+                            "
+                        >
+
+                            <i class="bi bi-send-fill"></i>
+
+                        </div>
+
+
+                        <div>
+
+                            <strong>
+
+                                ৩. SMS পাঠানো
+
+                            </strong>
+
+
+                            <p
+                                class="mb-0 mt-1"
+                                style="
+                                    color:#718399;
+                                    font-size:12px;
+                                "
+                            >
+
+                                SSL Wireless API-এর মাধ্যমে
+                                SMS পাঠানো হবে।
+
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                </div>
+
+            </div>
+
+
+            <!-- =============================================
+                 API STATUS
+                 ============================================= -->
+
+            <div
+                class="
+                    shsd-card
+                    fade-up
+                "
+            >
+
+                <div class="shsd-card-body">
+
+                    <div
+                        class="
+                            d-flex
+                            align-items-center
+                            justify-content-between
+                        "
+                    >
+
+                        <div>
+
+                            <small
+                                style="
+                                    color:#667a91;
+                                "
+                            >
+
+                                SMS Provider
+
+                            </small>
+
+
+                            <div
+                                style="
+                                    color:white;
+                                    font-weight:600;
+                                "
+                            >
+
+                                SSL Wireless
+
+                            </div>
+
+                        </div>
+
+
+                        <div
+                            class="sms-status online"
+                        >
+
+                            <span
+                                class="chat-status-dot"
+                            ></span>
+
+                            Ready
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- =====================================================
+         BROADCAST HISTORY
+         ===================================================== -->
+
+    {% if broadcasts %}
+
+        <div
+            class="
+                shsd-card
+                mt-4
+                fade-up
+            "
+        >
+
+            <div class="shsd-card-header">
+
+                <div
+                    class="
+                        d-flex
+                        align-items-center
+                        justify-content-between
+                    "
+                >
+
+                    <div>
+
+                        <h5 class="mb-1">
+
+                            <i
+                                class="
+                                    bi
+                                    bi-clock-history
+                                    me-2
+                                "
+                                style="
+                                    color:#39d9ff;
+                                "
+                            ></i>
+
+                            Recent Broadcasts
+
+                        </h5>
+
+
+                        <small
+                            style="
+                                color:#667a91;
+                            "
+                        >
+
+                            সর্বশেষ SMS Broadcast-এর তালিকা
+
+                        </small>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="shsd-card-body p-0">
+
+                <div class="table-responsive">
+
+                    <table
+                        class="
+                            table
+                            shsd-table
+                            mb-0
+                        "
+                    >
+
+                        <thead>
+
+                            <tr>
+
+                                <th>
+                                    Message
+                                </th>
+
+                                <th>
+                                    Sent By
+                                </th>
+
+                                <th>
+                                    Status
+                                </th>
+
+                                <th>
+                                    Date
+                                </th>
+
+                            </tr>
+
+                        </thead>
+
+
+                        <tbody>
+
+                            {% for broadcast in broadcasts %}
+
+                                <tr>
+
+                                    <td>
+
+                                        <div
+                                            style="
+                                                max-width:450px;
+                                                white-space:normal;
+                                            "
+                                        >
+
+                                            {{ broadcast.message }}
+
+                                        </div>
+
+                                    </td>
+
+
+                                    <td>
+
+                                        {{ broadcast.sender_name
+                                           or "Admin" }}
+
+                                    </td>
+
+
+                                    <td>
+
+                                        {% if broadcast.status ==
+                                              "sent" %}
+
+                                            <span
+                                                class="
+                                                    shsd-badge
+                                                    shsd-badge-success
+                                                "
+                                            >
+
+                                                <i
+                                                    class="
+                                                        bi
+                                                        bi-check-circle-fill
+                                                    "
+                                                ></i>
+
+                                                Sent
+
+                                            </span>
+
+                                        {% elif
+                                              broadcast.status ==
+                                              "partial" %}
+
+                                            <span
+                                                class="
+                                                    shsd-badge
+                                                    shsd-badge-info
+                                                "
+                                            >
+
+                                                Partial
+
+                                            </span>
+
+                                        {% else %}
+
+                                            <span
+                                                class="
+                                                    shsd-badge
+                                                    shsd-badge-danger
+                                                "
+                                            >
+
+                                                Failed
+
+                                            </span>
+
+                                        {% endif %}
+
+                                    </td>
+
+
+                                    <td>
+
+                                        {{ broadcast.created_at }}
+
+                                    </td>
+
+                                </tr>
+
+                            {% endfor %}
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    {% endif %}
+
+
+</div>
+
+
+{% endblock %}
+
+
+{% block extra_js %}
+
+<script>
+
+    /*
+     * SMS Send button-এর loading animation।
+     */
+
+    document.addEventListener(
+        "DOMContentLoaded",
+        function () {
+
+            const form =
+                document.getElementById(
+                    "broadcastForm"
+                );
+
+
+            const button =
+                document.getElementById(
+                    "sendSmsButton"
+                );
+
+
+            const textarea =
+                document.getElementById(
+                    "smsMessage"
+                );
+
+
+            if (!form || !button) {
+
+                return;
+
+            }
+
+
+            form.addEventListener(
+                "submit",
+                function (event) {
+
+                    /*
+                     * Browser-এর required validation
+                     * সম্পন্ন হতে দেওয়া হচ্ছে।
+                     */
+
+                    if (
+                        !form.checkValidity()
+                    ) {
+
+                        return;
+
+                    }
+
+
+                    /*
+                     * Confirmation message।
+                     */
+
+                    const confirmed =
+                        window.confirm(
+                            "আপনি কি সকল Student-এর মোবাইলে এই SMS পাঠাতে চান?"
+                        );
+
+
+                    if (!confirmed) {
+
+                        event.preventDefault();
+
+                        return;
+
+                    }
+
+
+                    /*
+                     * Button disable করে
+                     * duplicate SMS পাঠানো আটকানো হচ্ছে।
+                     */
+
+                    button.disabled = true;
+
+
+                    button.innerHTML = `
+
+                        <span
+                            class="
+                                spinner-border
+                                spinner-border-sm
+                                me-2
+                            "
+                            role="status"
+                            aria-hidden="true"
+                        ></span>
+
+                        SMS পাঠানো হচ্ছে...
+
+                    `;
+
+                }
+            );
+
+
+            /*
+             * Textarea-তে Enter কাজ করবে,
+             * কিন্তু অপ্রয়োজনীয় submit হবে না।
+             */
+
+            if (textarea) {
+
+                textarea.addEventListener(
+                    "keydown",
+                    function (event) {
+
+                        /*
+                         * Ctrl + Enter দিলে দ্রুত form submit।
+                         */
+
+                        if (
+                            event.key === "Enter" &&
+                            event.ctrlKey
+                        ) {
+
+                            event.preventDefault();
+
+
+                            form.requestSubmit();
+
+                        }
+
+                    }
+                );
+
+            }
+
+        }
+    );
+
+</script>
+
+{% endblock %}
