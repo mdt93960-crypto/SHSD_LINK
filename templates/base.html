@@ -1,0 +1,846 @@
+<!-- =========================================================
+     SHSD Link - School Communication System
+     PART 6 : Main HTML Base Template
+     
+     এই ফাইলটি Website-এর সব Page-এর মূল Layout।
+     ========================================================= -->
+
+<!DOCTYPE html>
+
+<html lang="bn">
+
+<head>
+
+    <!-- =====================================================
+         BASIC META
+         ===================================================== -->
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <meta
+        name="theme-color"
+        content="#07111f"
+    >
+
+    <meta
+        name="description"
+        content="SHSD Link - School Communication & Student Management System"
+    >
+
+    <title>
+        {% block title %}
+            {{ school_name }} | School Communication
+        {% endblock %}
+    </title>
+
+
+    <!-- =====================================================
+         GOOGLE FONT
+         ===================================================== -->
+
+    <link
+        rel="preconnect"
+        href="https://fonts.googleapis.com"
+    >
+
+    <link
+        rel="preconnect"
+        href="https://fonts.gstatic.com"
+        crossorigin
+    >
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;600;700&family=Inter:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet"
+    >
+
+
+    <!-- =====================================================
+         BOOTSTRAP 5
+         ===================================================== -->
+
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+    >
+
+
+    <!-- =====================================================
+         BOOTSTRAP ICONS
+         ===================================================== -->
+
+    <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css"
+    >
+
+
+    <!-- =====================================================
+         CUSTOM CSS
+         ===================================================== -->
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='css/style.css') }}"
+    >
+
+
+    <!-- =====================================================
+         EXTRA HEAD AREA
+         ===================================================== -->
+
+    {% block extra_head %}
+    {% endblock %}
+
+</head>
+
+
+<body>
+
+
+    <!-- =====================================================
+         BACKGROUND DECORATION
+         ===================================================== -->
+
+    <div class="site-background">
+
+        <div class="background-orb orb-one"></div>
+
+        <div class="background-orb orb-two"></div>
+
+        <div class="background-grid"></div>
+
+    </div>
+
+
+    <!-- =====================================================
+         NAVIGATION BAR
+         ===================================================== -->
+
+    <nav
+        class="navbar navbar-expand-lg fixed-top shsd-navbar"
+    >
+
+        <div class="container-fluid px-lg-4">
+
+
+            <!-- =================================================
+                 BRAND
+                 ================================================= -->
+
+            <a
+                class="navbar-brand shsd-brand"
+                href="{{ url_for('index') }}"
+            >
+
+                <span class="brand-logo">
+
+                    <i class="bi bi-mortarboard-fill"></i>
+
+                </span>
+
+                <span class="brand-text">
+
+                    <strong>
+                        SHSD
+                    </strong>
+
+                    <small>
+                        LINK
+                    </small>
+
+                </span>
+
+            </a>
+
+
+            <!-- =================================================
+                 MOBILE MENU BUTTON
+                 ================================================= -->
+
+            <button
+                class="navbar-toggler shsd-menu-button"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#mainNavigation"
+                aria-controls="mainNavigation"
+                aria-expanded="false"
+                aria-label="Toggle navigation"
+            >
+
+                <span class="navbar-toggler-icon"></span>
+
+            </button>
+
+
+            <!-- =================================================
+                 NAVIGATION LINKS
+                 ================================================= -->
+
+            <div
+                class="collapse navbar-collapse"
+                id="mainNavigation"
+            >
+
+                <ul class="navbar-nav ms-auto align-items-lg-center gap-lg-2">
+
+
+                    <!-- =================================================
+                         HOME
+                         ================================================= -->
+
+                    <li class="nav-item">
+
+                        <a
+                            class="nav-link shsd-nav-link"
+                            href="{{ url_for('index') }}"
+                        >
+
+                            <i class="bi bi-house-door"></i>
+
+                            <span>
+                                Home
+                            </span>
+
+                        </a>
+
+                    </li>
+
+
+                    <!-- =================================================
+                         PUBLIC CHAT
+                         ================================================= -->
+
+                    {% if current_user.is_authenticated %}
+
+                    <li class="nav-item">
+
+                        <a
+                            class="nav-link shsd-nav-link"
+                            href="{{ url_for('public_chat') }}"
+                        >
+
+                            <i class="bi bi-chat-dots"></i>
+
+                            <span>
+                                Public Chat
+                            </span>
+
+                        </a>
+
+                    </li>
+
+                    {% endif %}
+
+
+                    <!-- =================================================
+                         ADMIN MENU
+                         ================================================= -->
+
+                    {% if current_user.is_authenticated and current_user.role == 'admin' %}
+
+                    <li class="nav-item dropdown">
+
+                        <a
+                            class="nav-link dropdown-toggle shsd-nav-link"
+                            href="#"
+                            role="button"
+                            data-bs-toggle="dropdown"
+                            aria-expanded="false"
+                        >
+
+                            <i class="bi bi-shield-lock"></i>
+
+                            Admin
+
+                        </a>
+
+
+                        <ul
+                            class="dropdown-menu shsd-dropdown-menu"
+                        >
+
+                            <li>
+
+                                <a
+                                    class="dropdown-item"
+                                    href="{{ url_for('admin_dashboard') }}"
+                                >
+
+                                    <i class="bi bi-speedometer2"></i>
+
+                                    Dashboard
+
+                                </a>
+
+                            </li>
+
+
+                            <li>
+
+                                <a
+                                    class="dropdown-item"
+                                    href="{{ url_for('admin_students') }}"
+                                >
+
+                                    <i class="bi bi-people"></i>
+
+                                    Students
+
+                                </a>
+
+                            </li>
+
+
+                            <li>
+
+                                <a
+                                    class="dropdown-item"
+                                    href="{{ url_for('admin_broadcast') }}"
+                                >
+
+                                    <i class="bi bi-megaphone"></i>
+
+                                    SMS Broadcast
+
+                                </a>
+
+                            </li>
+
+                        </ul>
+
+                    </li>
+
+                    {% endif %}
+
+
+                    <!-- =================================================
+                         TEACHER MENU
+                         ================================================= -->
+
+                    {% if current_user.is_authenticated and current_user.role in ['teacher', 'admin'] %}
+
+                    <li class="nav-item dropdown">
+
+                        <a
+                            class="nav-link dropdown-toggle shsd-nav-link"
+                            href="#"
+                            role="button"
+                            data-bs-toggle="dropdown"
+                            aria-expanded="false"
+                        >
+
+                            <i class="bi bi-person-workspace"></i>
+
+                            Teacher
+
+                        </a>
+
+
+                        <ul
+                            class="dropdown-menu shsd-dropdown-menu"
+                        >
+
+                            <li>
+
+                                <a
+                                    class="dropdown-item"
+                                    href="{{ url_for('teacher_dashboard') }}"
+                                >
+
+                                    <i class="bi bi-grid-1x2"></i>
+
+                                    Dashboard
+
+                                </a>
+
+                            </li>
+
+
+                            <li>
+
+                                <a
+                                    class="dropdown-item"
+                                    href="{{ url_for('teacher_students') }}"
+                                >
+
+                                    <i class="bi bi-mortarboard"></i>
+
+                                    Students
+
+                                </a>
+
+                            </li>
+
+
+                            <li>
+
+                                <a
+                                    class="dropdown-item"
+                                    href="{{ url_for('call_message') }}"
+                                >
+
+                                    <i class="bi bi-telephone"></i>
+
+                                    Call Message
+
+                                </a>
+
+                            </li>
+
+
+                            <li>
+
+                                <a
+                                    class="dropdown-item"
+                                    href="{{ url_for('request_form') }}"
+                                >
+
+                                    <i class="bi bi-file-earmark-text"></i>
+
+                                    Requests
+
+                                </a>
+
+                            </li>
+
+                        </ul>
+
+                    </li>
+
+                    {% endif %}
+
+
+                    <!-- =================================================
+                         STUDENT MENU
+                         ================================================= -->
+
+                    {% if current_user.is_authenticated and current_user.role == 'student' %}
+
+                    <li class="nav-item">
+
+                        <a
+                            class="nav-link shsd-nav-link"
+                            href="{{ url_for('student_dashboard') }}"
+                        >
+
+                            <i class="bi bi-grid"></i>
+
+                            Dashboard
+
+                        </a>
+
+                    </li>
+
+
+                    <li class="nav-item">
+
+                        <a
+                            class="nav-link shsd-nav-link"
+                            href="{{ url_for('request_form') }}"
+                        >
+
+                            <i class="bi bi-file-earmark-plus"></i>
+
+                            Request
+
+                        </a>
+
+                    </li>
+
+                    {% endif %}
+
+
+                    <!-- =================================================
+                         USER PROFILE / LOGIN
+                         ================================================= -->
+
+                    {% if current_user.is_authenticated %}
+
+                    <li class="nav-item dropdown ms-lg-2">
+
+                        <a
+                            class="nav-link dropdown-toggle user-nav-button"
+                            href="#"
+                            role="button"
+                            data-bs-toggle="dropdown"
+                            aria-expanded="false"
+                        >
+
+                            <span class="user-avatar">
+
+                                <i class="bi bi-person-fill"></i>
+
+                            </span>
+
+                            <span class="user-nav-name">
+
+                                {{ current_user.name }}
+
+                            </span>
+
+                        </a>
+
+
+                        <ul
+                            class="dropdown-menu dropdown-menu-end shsd-dropdown-menu"
+                        >
+
+                            <li>
+
+                                <div class="dropdown-user-info">
+
+                                    <strong>
+                                        {{ current_user.name }}
+                                    </strong>
+
+                                    <small>
+
+                                        {% if current_user.role == 'admin' %}
+
+                                            Administrator
+
+                                        {% elif current_user.role == 'teacher' %}
+
+                                            Teacher
+
+                                        {% else %}
+
+                                            Student
+
+                                        {% endif %}
+
+                                    </small>
+
+                                </div>
+
+                            </li>
+
+
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+
+
+                            <li>
+
+                                <a
+                                    class="dropdown-item logout-item"
+                                    href="{{ url_for('logout') }}"
+                                >
+
+                                    <i class="bi bi-box-arrow-right"></i>
+
+                                    Logout
+
+                                </a>
+
+                            </li>
+
+                        </ul>
+
+                    </li>
+
+
+                    {% else %}
+
+                    <!-- =================================================
+                         LOGIN BUTTON
+                         ================================================= -->
+
+                    <li class="nav-item ms-lg-2">
+
+                        <a
+                            class="btn shsd-login-button"
+                            href="{{ url_for('login') }}"
+                        >
+
+                            <i class="bi bi-box-arrow-in-right"></i>
+
+                            Login
+
+                        </a>
+
+                    </li>
+
+                    {% endif %}
+
+                </ul>
+
+            </div>
+
+        </div>
+
+    </nav>
+
+
+    <!-- =====================================================
+         MAIN CONTENT
+         ===================================================== -->
+
+    <main class="shsd-main">
+
+
+        <!-- =================================================
+             FLASH MESSAGE
+             ================================================= -->
+
+        <div class="container-fluid px-3 px-lg-5">
+
+            {% with messages = get_flashed_messages(
+                with_categories=true
+            ) %}
+
+                {% if messages %}
+
+                    <div class="shsd-alert-container">
+
+                        {% for category, message in messages %}
+
+                            <div
+                                class="alert shsd-alert alert-{{ category }} alert-dismissible fade show"
+                                role="alert"
+                            >
+
+                                {% if category == 'success' %}
+
+                                    <i class="bi bi-check-circle-fill"></i>
+
+                                {% elif category == 'danger' %}
+
+                                    <i class="bi bi-exclamation-triangle-fill"></i>
+
+                                {% elif category == 'warning' %}
+
+                                    <i class="bi bi-exclamation-circle-fill"></i>
+
+                                {% else %}
+
+                                    <i class="bi bi-info-circle-fill"></i>
+
+                                {% endif %}
+
+
+                                <span>
+                                    {{ message }}
+                                </span>
+
+
+                                <button
+                                    type="button"
+                                    class="btn-close"
+                                    data-bs-dismiss="alert"
+                                    aria-label="Close"
+                                ></button>
+
+                            </div>
+
+                        {% endfor %}
+
+                    </div>
+
+                {% endif %}
+
+            {% endwith %}
+
+        </div>
+
+
+        <!-- =================================================
+             PAGE CONTENT
+             ================================================= -->
+
+        {% block content %}
+
+        {% endblock %}
+
+
+    </main>
+
+
+    <!-- =====================================================
+         FOOTER
+         ===================================================== -->
+
+    <footer class="shsd-footer">
+
+        <div class="container-fluid px-4 px-lg-5">
+
+            <div class="row align-items-center g-3">
+
+
+                <!-- =================================================
+                     FOOTER BRAND
+                     ================================================= -->
+
+                <div class="col-lg-5">
+
+                    <div class="footer-brand">
+
+                        <span class="footer-logo">
+
+                            <i class="bi bi-mortarboard-fill"></i>
+
+                        </span>
+
+                        <div>
+
+                            <strong>
+                                {{ school_name }}
+                            </strong>
+
+                            <small>
+                                {{ school_tagline }}
+                            </small>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- =================================================
+                     FOOTER CENTER
+                     ================================================= -->
+
+                <div class="col-lg-4 text-lg-center">
+
+                    <div class="footer-security">
+
+                        <i class="bi bi-shield-check"></i>
+
+                        <span>
+                            Secure School Communication
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <!-- =================================================
+                     FOOTER COPYRIGHT
+                     ================================================= -->
+
+                <div class="col-lg-3 text-lg-end">
+
+                    <div class="footer-copy">
+
+                        © {{ current_year }}
+
+                        <strong>
+                            SHSD Link
+                        </strong>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </footer>
+
+
+    <!-- =====================================================
+         BOOTSTRAP JAVASCRIPT
+         ===================================================== -->
+
+    <script
+        src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+    ></script>
+
+
+    <!-- =====================================================
+         SOCKET.IO CLIENT
+         ===================================================== -->
+
+    {% if current_user.is_authenticated %}
+
+    <script
+        src="https://cdn.socket.io/4.8.1/socket.io.min.js"
+    ></script>
+
+    {% endif %}
+
+
+    <!-- =====================================================
+         CUSTOM JAVASCRIPT
+         ===================================================== -->
+
+    <script
+        src="{{ url_for('static', filename='js/app.js') }}"
+    ></script>
+
+
+    <!-- =====================================================
+         EXTRA JAVASCRIPT AREA
+         ===================================================== -->
+
+    {% block extra_scripts %}
+
+    {% endblock %}
+
+
+    <!-- =====================================================
+         AUTO HIDE FLASH MESSAGE
+         ===================================================== -->
+
+    <script>
+
+        /*
+         * Flash Message কয়েক সেকেন্ড পরে
+         * নিজে নিজে hide হয়ে যাবে।
+         */
+
+        document.addEventListener(
+            "DOMContentLoaded",
+            function () {
+
+                const alerts =
+                    document.querySelectorAll(
+                        ".shsd-alert"
+                    );
+
+                alerts.forEach(
+                    function (alertElement) {
+
+                        setTimeout(
+                            function () {
+
+                                /*
+                                 * Bootstrap-এর alert
+                                 * hide করা হচ্ছে।
+                                 */
+
+                                const alert =
+                                    bootstrap.Alert
+                                    .getOrCreateInstance(
+                                        alertElement
+                                    );
+
+                                alert.close();
+
+                            },
+                            6000
+                        );
+
+                    }
+                );
+
+            }
+        );
+
+    </script>
+
+
+</body>
+
+                              </html>
