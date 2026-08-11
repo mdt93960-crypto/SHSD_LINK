@@ -1,0 +1,725 @@
+{% extends "base.html" %}
+
+{% block title %}My Profile | SHSD Link{% endblock %}
+
+
+{% block content %}
+
+<!-- =========================================================
+     SHSD LINK — USER PROFILE
+     PART 12
+     ========================================================= -->
+
+
+<div class="container py-4">
+
+
+    <!-- =====================================================
+         PAGE HEADER
+         ===================================================== -->
+
+    <div class="shsd-page-hero fade-up mb-4">
+
+        <div class="row align-items-center">
+
+            <div class="col-md-8">
+
+                <div class="d-flex align-items-center gap-3">
+
+                    <div
+                        class="login-logo"
+                        style="
+                            width:58px;
+                            height:58px;
+                            min-width:58px;
+                            margin:0;
+                        "
+                    >
+
+                        <i class="bi bi-person-circle"></i>
+
+                    </div>
+
+
+                    <div>
+
+                        <h1 class="mb-1">
+
+                            My Profile
+
+                        </h1>
+
+
+                        <p class="mb-0">
+
+                            আপনার Account-এর তথ্য
+
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="col-md-4 mt-3 mt-md-0">
+
+                <div
+                    class="d-flex
+                           justify-content-md-end"
+                >
+
+                    {% if current_user %}
+
+                        {% if current_user.role == "admin" %}
+
+                            <span
+                                class="shsd-badge
+                                       shsd-badge-danger"
+                            >
+
+                                <i
+                                    class="bi
+                                           bi-shield-lock-fill"
+                                ></i>
+
+                                ADMIN
+
+                            </span>
+
+                        {% elif current_user.role == "teacher" %}
+
+                            <span
+                                class="shsd-badge
+                                       shsd-badge-info"
+                            >
+
+                                <i
+                                    class="bi
+                                           bi-person-workspace"
+                                ></i>
+
+                                TEACHER
+
+                            </span>
+
+                        {% else %}
+
+                            <span
+                                class="shsd-badge
+                                       shsd-badge-success"
+                            >
+
+                                <i
+                                    class="bi
+                                           bi-mortarboard-fill"
+                                ></i>
+
+                                STUDENT
+
+                            </span>
+
+                        {% endif %}
+
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- =====================================================
+         PROFILE
+         ===================================================== -->
+
+    <div class="row g-4">
+
+
+        <!-- =================================================
+             PROFILE CARD
+             ================================================= -->
+
+        <div class="col-lg-5">
+
+            <div
+                class="shsd-card
+                       profile-main-card
+                       fade-up"
+            >
+
+                <div class="shsd-card-body text-center">
+
+                    <!-- =====================================
+                         AVATAR
+                         ===================================== -->
+
+                    <div
+                        class="profile-avatar"
+                    >
+
+                        {% if current_user and
+                              current_user.role == "admin" %}
+
+                            <i
+                                class="bi
+                                       bi-shield-lock-fill"
+                            ></i>
+
+                        {% elif current_user and
+                              current_user.role == "teacher" %}
+
+                            <i
+                                class="bi
+                                       bi-person-workspace"
+                            ></i>
+
+                        {% else %}
+
+                            <i
+                                class="bi
+                                       bi-mortarboard-fill"
+                            ></i>
+
+                        {% endif %}
+
+                    </div>
+
+
+                    <!-- =====================================
+                         NAME
+                         ===================================== -->
+
+                    <h3 class="mt-3 mb-1">
+
+                        {% if current_user %}
+
+                            {{ current_user.name or
+                               current_user.username }}
+
+                        {% else %}
+
+                            User
+
+                        {% endif %}
+
+                    </h3>
+
+
+                    <p
+                        style="
+                            color:#72849a;
+                            margin-bottom:15px;
+                        "
+                    >
+
+                        @{{ current_user.username }}
+
+                    </p>
+
+
+                    <!-- =====================================
+                         ROLE
+                         ===================================== -->
+
+                    {% if current_user %}
+
+                        {% if current_user.role == "admin" %}
+
+                            <span
+                                class="shsd-badge
+                                       shsd-badge-danger"
+                            >
+
+                                <i
+                                    class="bi
+                                           bi-shield-check"
+                                ></i>
+
+                                Administrator
+
+                            </span>
+
+                        {% elif current_user.role == "teacher" %}
+
+                            <span
+                                class="shsd-badge
+                                       shsd-badge-info"
+                            >
+
+                                <i
+                                    class="bi
+                                           bi-person-workspace"
+                                ></i>
+
+                                Teacher
+
+                            </span>
+
+                        {% else %}
+
+                            <span
+                                class="shsd-badge
+                                       shsd-badge-success"
+                            >
+
+                                <i
+                                    class="bi
+                                           bi-mortarboard-fill"
+                                ></i>
+
+                                Student
+
+                            </span>
+
+                        {% endif %}
+
+                    {% endif %}
+
+
+                    <!-- =====================================
+                         ACCOUNT STATUS
+                         ===================================== -->
+
+                    <div
+                        class="sms-status online mt-4"
+                    >
+
+                        <span
+                            class="chat-status-dot"
+                            style="
+                                width:8px;
+                                height:8px;
+                                display:inline-block;
+                                border-radius:50%;
+                            "
+                        ></span>
+
+                        Account Active
+
+                    </div>
+
+
+                </div>
+
+            </div>
+
+
+            <!-- =============================================
+                 SECURITY CARD
+                 ============================================= -->
+
+            <div
+                class="shsd-card
+                       mt-4
+                       fade-up"
+            >
+
+                <div class="shsd-card-body">
+
+                    <div
+                        class="d-flex
+                               align-items-start
+                               gap-3"
+                    >
+
+                        <div class="section-title-icon">
+
+                            <i class="bi bi-shield-lock"></i>
+
+                        </div>
+
+
+                        <div>
+
+                            <h6>
+
+                                Account Security
+
+                            </h6>
+
+
+                            <p
+                                class="mb-0"
+                                style="
+                                    color:#7f91a7;
+                                    font-size:12px;
+                                    line-height:1.7;
+                                "
+                            >
+
+                                আপনার Password কারো সাথে
+                                শেয়ার করবেন না।
+
+                                Public device ব্যবহার করলে
+                                কাজ শেষে Logout করুন।
+
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- =================================================
+             INFORMATION
+             ================================================= -->
+
+        <div class="col-lg-7">
+
+            <div
+                class="shsd-card
+                       fade-up"
+            >
+
+                <div class="shsd-card-header">
+
+                    <h5 class="mb-1">
+
+                        <i
+                            class="bi bi-person-vcard me-2"
+                            style="color:#39d9ff;"
+                        ></i>
+
+                        Personal Information
+
+                    </h5>
+
+
+                    <small
+                        style="
+                            color:#667a91;
+                        "
+                    >
+
+                        আপনার Account-এর সংরক্ষিত তথ্য
+
+                    </small>
+
+                </div>
+
+
+                <div class="shsd-card-body">
+
+
+                    <!-- =====================================
+                         FULL NAME
+                         ===================================== -->
+
+                    <div class="profile-info-row">
+
+                        <div class="profile-info-icon">
+
+                            <i class="bi bi-person-fill"></i>
+
+                        </div>
+
+
+                        <div class="profile-info-content">
+
+                            <span>
+
+                                Full Name
+
+                            </span>
+
+
+                            <strong>
+
+                                {% if current_user.name %}
+
+                                    {{ current_user.name }}
+
+                                {% else %}
+
+                                    তথ্য দেওয়া হয়নি
+
+                                {% endif %}
+
+                            </strong>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- =====================================
+                         USERNAME
+                         ===================================== -->
+
+                    <div class="profile-info-row">
+
+                        <div class="profile-info-icon">
+
+                            <i class="bi bi-at"></i>
+
+                        </div>
+
+
+                        <div class="profile-info-content">
+
+                            <span>
+
+                                Username
+
+                            </span>
+
+
+                            <strong>
+
+                                {{ current_user.username }}
+
+                            </strong>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- =====================================
+                         PHONE
+                         ===================================== -->
+
+                    <div class="profile-info-row">
+
+                        <div class="profile-info-icon">
+
+                            <i class="bi bi-phone-fill"></i>
+
+                        </div>
+
+
+                        <div class="profile-info-content">
+
+                            <span>
+
+                                Mobile Number
+
+                            </span>
+
+
+                            <strong>
+
+                                {% if current_user.phone %}
+
+                                    {{ current_user.phone }}
+
+                                {% else %}
+
+                                    তথ্য দেওয়া হয়নি
+
+                                {% endif %}
+
+                            </strong>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- =====================================
+                         ROLE
+                         ===================================== -->
+
+                    <div class="profile-info-row">
+
+                        <div class="profile-info-icon">
+
+                            <i class="bi bi-person-badge-fill"></i>
+
+                        </div>
+
+
+                        <div class="profile-info-content">
+
+                            <span>
+
+                                Account Role
+
+                            </span>
+
+
+                            <strong>
+
+                                {% if current_user.role == "admin" %}
+
+                                    Administrator
+
+                                {% elif current_user.role == "teacher" %}
+
+                                    Teacher
+
+                                {% else %}
+
+                                    Student
+
+                                {% endif %}
+
+                            </strong>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- =====================================
+                         ACCOUNT ID
+                         ===================================== -->
+
+                    <div class="profile-info-row">
+
+                        <div class="profile-info-icon">
+
+                            <i class="bi bi-fingerprint"></i>
+
+                        </div>
+
+
+                        <div class="profile-info-content">
+
+                            <span>
+
+                                Account ID
+
+                            </span>
+
+
+                            <strong>
+
+                                #{{ current_user.id }}
+
+                            </strong>
+
+                        </div>
+
+                    </div>
+
+
+                </div>
+
+            </div>
+
+
+            <!-- =================================================
+                 QUICK ACTIONS
+                 ================================================= -->
+
+            <div class="shsd-card mt-4 fade-up">
+
+                <div class="shsd-card-header">
+
+                    <h5 class="mb-0">
+
+                        <i
+                            class="bi bi-lightning-charge-fill me-2"
+                            style="color:#39d9ff;"
+                        ></i>
+
+                        Quick Actions
+
+                    </h5>
+
+                </div>
+
+
+                <div class="shsd-card-body">
+
+                    <div class="row g-3">
+
+
+                        <!-- CHAT -->
+
+                        <div class="col-md-6">
+
+                            <a
+                                href="{{ url_for('chat') }}"
+                                class="shsd-btn
+                                       shsd-btn-primary
+                                       w-100"
+                            >
+
+                                <i
+                                    class="bi
+                                           bi-chat-dots-fill"
+                                ></i>
+
+                                Public Chat
+
+                            </a>
+
+                        </div>
+
+
+                        <!-- DASHBOARD -->
+
+                        <div class="col-md-6">
+
+                            <a
+                                href="{{ url_for('dashboard') }}"
+                                class="shsd-btn
+                                       shsd-btn-secondary
+                                       w-100"
+                            >
+
+                                <i
+                                    class="bi
+                                           bi-grid-fill"
+                                ></i>
+
+                                Dashboard
+
+                            </a>
+
+                        </div>
+
+
+                        <!-- LOGOUT -->
+
+                        <div class="col-12">
+
+                            <a
+                                href="{{ url_for('logout') }}"
+                                class="shsd-btn
+                                       shsd-btn-secondary
+                                       w-100"
+                                style="
+                                    color:#ff6b7d;
+                                "
+                            >
+
+                                <i
+                                    class="bi
+                                           bi-box-arrow-right"
+                                ></i>
+
+                                Logout
+
+                            </a>
+
+                        </div>
+
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+{% endblock %}
