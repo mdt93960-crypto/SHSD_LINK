@@ -1,0 +1,986 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard | SHSD Link{% endblock %}
+
+
+{% block content %}
+
+<!-- =========================================================
+     SHSD LINK DASHBOARD
+     PART 10
+     ========================================================= -->
+
+
+<div class="container py-4">
+
+    <!-- =====================================================
+         DASHBOARD HERO
+         ===================================================== -->
+
+    <div class="shsd-page-hero fade-up">
+
+        <div class="row align-items-center">
+
+            <!-- ===============================================
+                 LEFT SIDE
+                 =============================================== -->
+
+            <div class="col-lg-8">
+
+                <div class="d-flex align-items-center gap-3">
+
+                    <!-- School Logo -->
+
+                    <div
+                        class="student-avatar"
+                        style="
+                            width:60px;
+                            height:60px;
+                            flex-basis:60px;
+                            border-radius:18px;
+                            overflow:hidden;
+                        "
+                    >
+
+                        {% if school_logo %}
+
+                            <img
+                                src="{{ url_for(
+                                    'static',
+                                    filename=school_logo
+                                ) }}"
+                                alt="School Logo"
+                                style="
+                                    width:100%;
+                                    height:100%;
+                                    object-fit:contain;
+                                "
+                            >
+
+                        {% else %}
+
+                            <i
+                                class="bi bi-mortarboard-fill"
+                                style="font-size:28px;"
+                            ></i>
+
+                        {% endif %}
+
+                    </div>
+
+
+                    <div>
+
+                        <h1>
+
+                            {% if current_user %}
+
+                                শুভেচ্ছা,
+                                {{ current_user.name or
+                                   current_user.username }}
+
+                            {% else %}
+
+                                স্বাগতম
+
+                            {% endif %}
+
+                        </h1>
+
+
+                        <p>
+
+                            {% if school_name %}
+
+                                {{ school_name }}
+
+                            {% else %}
+
+                                SHSD Link School Portal
+
+                            {% endif %}
+
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- ===============================================
+                 RIGHT SIDE — ROLE
+                 =============================================== -->
+
+            <div class="col-lg-4 mt-3 mt-lg-0">
+
+                <div
+                    class="d-flex
+                           justify-content-lg-end
+                           align-items-center"
+                >
+
+                    {% if current_user %}
+
+                        {% if current_user.role == "admin" %}
+
+                            <span class="shsd-badge shsd-badge-danger">
+
+                                <i class="bi bi-shield-lock-fill"></i>
+
+                                ADMIN
+
+                            </span>
+
+                        {% elif current_user.role == "teacher" %}
+
+                            <span class="shsd-badge shsd-badge-info">
+
+                                <i class="bi bi-person-workspace"></i>
+
+                                TEACHER
+
+                            </span>
+
+                        {% else %}
+
+                            <span class="shsd-badge shsd-badge-success">
+
+                                <i class="bi bi-mortarboard-fill"></i>
+
+                                STUDENT
+
+                            </span>
+
+                        {% endif %}
+
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- =====================================================
+         STATISTICS
+         ===================================================== -->
+
+    <div class="row g-3 mb-4">
+
+
+        <!-- ===============================================
+             ONLINE CHAT
+             =============================================== -->
+
+        <div class="col-6 col-lg-3">
+
+            <div class="shsd-stat-card fade-up">
+
+                <div class="shsd-stat-icon">
+
+                    <i class="bi bi-chat-dots-fill"></i>
+
+                </div>
+
+
+                <h3>
+
+                    LIVE
+
+                </h3>
+
+
+                <p>
+
+                    Public Chat
+
+                </p>
+
+
+                <div class="stat-decoration"></div>
+
+            </div>
+
+        </div>
+
+
+        <!-- ===============================================
+             USER ROLE
+             =============================================== -->
+
+        <div class="col-6 col-lg-3">
+
+            <div class="shsd-stat-card fade-up">
+
+                <div class="shsd-stat-icon">
+
+                    <i class="bi bi-person-check-fill"></i>
+
+                </div>
+
+
+                <h3>
+
+                    {% if current_user %}
+
+                        {% if current_user.role == "admin" %}
+
+                            Admin
+
+                        {% elif current_user.role == "teacher" %}
+
+                            Teacher
+
+                        {% else %}
+
+                            Student
+
+                        {% endif %}
+
+                    {% else %}
+
+                        User
+
+                    {% endif %}
+
+                </h3>
+
+
+                <p>
+
+                    Account Type
+
+                </p>
+
+
+                <div class="stat-decoration"></div>
+
+            </div>
+
+        </div>
+
+
+        <!-- ===============================================
+             SECURITY
+             =============================================== -->
+
+        <div class="col-6 col-lg-3">
+
+            <div class="shsd-stat-card fade-up">
+
+                <div class="shsd-stat-icon">
+
+                    <i class="bi bi-shield-check"></i>
+
+                </div>
+
+
+                <h3>
+
+                    SECURE
+
+                </h3>
+
+
+                <p>
+
+                    Protected Account
+
+                </p>
+
+
+                <div class="stat-decoration"></div>
+
+            </div>
+
+        </div>
+
+
+        <!-- ===============================================
+             SCHOOL
+             =============================================== -->
+
+        <div class="col-6 col-lg-3">
+
+            <div class="shsd-stat-card fade-up">
+
+                <div class="shsd-stat-icon">
+
+                    <i class="bi bi-building"></i>
+
+                </div>
+
+
+                <h3>
+
+                    ONLINE
+
+                </h3>
+
+
+                <p>
+
+                    School Portal
+
+                </p>
+
+
+                <div class="stat-decoration"></div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- =====================================================
+         QUICK ACTIONS
+         ===================================================== -->
+
+    <div class="shsd-section-title">
+
+        <div class="section-title-icon">
+
+            <i class="bi bi-grid-fill"></i>
+
+        </div>
+
+
+        <div>
+
+            <h2>
+
+                Quick Access
+
+            </h2>
+
+
+            <p>
+
+                আপনার প্রয়োজনীয় ফিচারগুলো এখান থেকে ব্যবহার করুন।
+
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <div class="action-grid mb-4">
+
+
+        <!-- =================================================
+             PUBLIC CHAT
+             ================================================= -->
+
+        <a
+            href="{{ url_for('chat') }}"
+            class="action-card fade-up"
+        >
+
+            <div class="action-card-icon">
+
+                <i class="bi bi-chat-text-fill"></i>
+
+            </div>
+
+
+            <h4>
+
+                Public Chat
+
+            </h4>
+
+
+            <p>
+
+                সবাইকে নিয়ে Live Text Chat করুন।
+
+            </p>
+
+        </a>
+
+
+        <!-- =================================================
+             PROFILE
+             ================================================= -->
+
+        <a
+            href="{{ url_for('profile') }}"
+            class="action-card fade-up"
+        >
+
+            <div class="action-card-icon">
+
+                <i class="bi bi-person-circle"></i>
+
+            </div>
+
+
+            <h4>
+
+                My Profile
+
+            </h4>
+
+
+            <p>
+
+                আপনার Account Information দেখুন।
+
+            </p>
+
+        </a>
+
+
+        <!-- =================================================
+             ADMIN BROADCAST
+             শুধুমাত্র Admin দেখতে পাবে
+             ================================================= -->
+
+        {% if current_user and
+              current_user.role == "admin" %}
+
+            <a
+                href="{{ url_for('admin_broadcast') }}"
+                class="action-card fade-up"
+            >
+
+                <div class="action-card-icon">
+
+                    <i class="bi bi-broadcast-pin"></i>
+
+                </div>
+
+
+                <h4>
+
+                    Admin Broadcast
+
+                </h4>
+
+
+                <p>
+
+                    সকল Student-কে SMS পাঠান।
+
+                </p>
+
+            </a>
+
+        {% endif %}
+
+
+        <!-- =================================================
+             TEACHER PANEL
+             Admin এবং Teacher দেখতে পারবে
+             ================================================= -->
+
+        {% if current_user and
+              (
+                  current_user.role == "teacher"
+                  or
+                  current_user.role == "admin"
+              )
+        %}
+
+            <a
+                href="{{ url_for('teacher_panel') }}"
+                class="action-card fade-up"
+            >
+
+                <div class="action-card-icon">
+
+                    <i class="bi bi-person-workspace"></i>
+
+                </div>
+
+
+                <h4>
+
+                    Teacher Panel
+
+                </h4>
+
+
+                <p>
+
+                    Student সম্পর্কিত তথ্য পরিচালনা করুন।
+
+                </p>
+
+            </a>
+
+        {% endif %}
+
+
+        <!-- =================================================
+             ADMIN USER MANAGEMENT
+             ================================================= -->
+
+        {% if current_user and
+              current_user.role == "admin" %}
+
+            <a
+                href="{{ url_for('admin_users') }}"
+                class="action-card fade-up"
+            >
+
+                <div class="action-card-icon">
+
+                    <i class="bi bi-people-fill"></i>
+
+                </div>
+
+
+                <h4>
+
+                    User Management
+
+                </h4>
+
+
+                <p>
+
+                    Student ও Teacher Account পরিচালনা করুন।
+
+                </p>
+
+            </a>
+
+        {% endif %}
+
+
+        <!-- =================================================
+             LOGOUT
+             ================================================= -->
+
+        <a
+            href="{{ url_for('logout') }}"
+            class="action-card fade-up"
+        >
+
+            <div
+                class="action-card-icon"
+                style="
+                    color:#ff5f70;
+                    background:rgba(255,95,112,.07);
+                "
+            >
+
+                <i class="bi bi-box-arrow-right"></i>
+
+            </div>
+
+
+            <h4>
+
+                Logout
+
+            </h4>
+
+
+            <p>
+
+                নিরাপদভাবে Account থেকে বের হন।
+
+            </p>
+
+        </a>
+
+    </div>
+
+
+    <!-- =====================================================
+         ACCOUNT INFORMATION
+         ===================================================== -->
+
+    <div class="row g-4">
+
+
+        <!-- =================================================
+             USER INFORMATION
+             ================================================= -->
+
+        <div class="col-lg-7">
+
+            <div class="shsd-card fade-up">
+
+                <div class="shsd-card-header">
+
+                    <div class="d-flex
+                                align-items-center
+                                justify-content-between">
+
+                        <div>
+
+                            <h5 class="mb-1">
+
+                                <i
+                                    class="bi bi-person-badge me-2"
+                                    style="color:#39d9ff;"
+                                ></i>
+
+                                Account Information
+
+                            </h5>
+
+
+                            <small
+                                style="
+                                    color:#667a91;
+                                "
+                            >
+
+                                আপনার বর্তমান Account-এর তথ্য
+
+                            </small>
+
+                        </div>
+
+
+                        <span
+                            class="shsd-badge
+                                   shsd-badge-success"
+                        >
+
+                            <i class="bi bi-check-circle-fill"></i>
+
+                            Active
+
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <div class="shsd-card-body">
+
+                    {% if current_user %}
+
+
+                        <!-- Username -->
+
+                        <div
+                            class="d-flex
+                                   align-items-center
+                                   gap-3
+                                   mb-3"
+                        >
+
+                            <div class="student-avatar">
+
+                                <i class="bi bi-person-fill"></i>
+
+                            </div>
+
+
+                            <div>
+
+                                <small
+                                    style="
+                                        color:#667a91;
+                                    "
+                                >
+
+                                    Username
+
+                                </small>
+
+
+                                <div
+                                    style="
+                                        color:white;
+                                        font-weight:600;
+                                    "
+                                >
+
+                                    {{ current_user.username }}
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- Name -->
+
+                        <div
+                            class="d-flex
+                                   align-items-center
+                                   gap-3
+                                   mb-3"
+                        >
+
+                            <div class="student-avatar">
+
+                                <i class="bi bi-person-vcard"></i>
+
+                            </div>
+
+
+                            <div>
+
+                                <small
+                                    style="
+                                        color:#667a91;
+                                    "
+                                >
+
+                                    Full Name
+
+                                </small>
+
+
+                                <div
+                                    style="
+                                        color:white;
+                                        font-weight:600;
+                                    "
+                                >
+
+                                    {{ current_user.name or
+                                       "Not Added" }}
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- Mobile -->
+
+                        <div
+                            class="d-flex
+                                   align-items-center
+                                   gap-3"
+                        >
+
+                            <div class="student-avatar">
+
+                                <i class="bi bi-phone-fill"></i>
+
+                            </div>
+
+
+                            <div>
+
+                                <small
+                                    style="
+                                        color:#667a91;
+                                    "
+                                >
+
+                                    Mobile Number
+
+                                </small>
+
+
+                                <div
+                                    style="
+                                        color:white;
+                                        font-weight:600;
+                                    "
+                                >
+
+                                    {{ current_user.phone or
+                                       "Not Added" }}
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                    {% else %}
+
+                        <div class="shsd-empty">
+
+                            <div class="shsd-empty-icon">
+
+                                <i class="bi bi-person-x"></i>
+
+                            </div>
+
+
+                            <h4>
+
+                                User information পাওয়া যায়নি।
+
+                            </h4>
+
+                        </div>
+
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- =================================================
+             SCHOOL INFORMATION
+             ================================================= -->
+
+        <div class="col-lg-5">
+
+            <div class="shsd-card fade-up">
+
+                <div class="shsd-card-header">
+
+                    <h5 class="mb-1">
+
+                        <i
+                            class="bi bi-building me-2"
+                            style="color:#39d9ff;"
+                        ></i>
+
+                        School Information
+
+                    </h5>
+
+
+                    <small
+                        style="
+                            color:#667a91;
+                        "
+                    >
+
+                        আপনার School Portal
+
+                    </small>
+
+                </div>
+
+
+                <div class="shsd-card-body">
+
+
+                    <div
+                        class="text-center
+                               mb-3"
+                    >
+
+                        <div
+                            class="login-logo"
+                            style="
+                                width:70px;
+                                height:70px;
+                                margin-bottom:12px;
+                            "
+                        >
+
+                            {% if school_logo %}
+
+                                <img
+                                    src="{{ url_for(
+                                        'static',
+                                        filename=school_logo
+                                    ) }}"
+                                    alt="School Logo"
+                                    style="
+                                        width:58px;
+                                        height:58px;
+                                        object-fit:contain;
+                                    "
+                                >
+
+                            {% else %}
+
+                                <i
+                                    class="bi
+                                           bi-mortarboard-fill"
+                                    style="
+                                        font-size:30px;
+                                    "
+                                ></i>
+
+                            {% endif %}
+
+                        </div>
+
+
+                        <h5>
+
+                            {% if school_name %}
+
+                                {{ school_name }}
+
+                            {% else %}
+
+                                SHSD Link School
+
+                            {% endif %}
+
+                        </h5>
+
+
+                        <p
+                            style="
+                                font-size:12px;
+                                margin:0;
+                            "
+                        >
+
+                            Digital School Communication System
+
+                        </p>
+
+                    </div>
+
+
+                    <div
+                        class="sms-status online"
+                    >
+
+                        <span
+                            class="chat-status-dot"
+                        ></span>
+
+                        <span>
+
+                            System Online
+
+                        </span>
+
+                    </div>
+
+
+                    <a
+                        href="{{ url_for('chat') }}"
+                        class="shsd-btn
+                               shsd-btn-primary
+                               w-100"
+                    >
+
+                        <i class="bi bi-chat-dots-fill"></i>
+
+                        Open Public Chat
+
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+</div>
+
+
+{% endblock %}
