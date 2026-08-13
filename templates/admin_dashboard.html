@@ -1,0 +1,1072 @@
+{% extends "base.html" %}
+
+{% block title %}
+Admin Dashboard | SHSD Link
+{% endblock %}
+
+
+{% block content %}
+
+<div class="container-fluid px-3 px-lg-5 py-4">
+
+    <!-- =====================================================
+         ADMIN HEADER
+         ===================================================== -->
+
+    <div class="d-flex flex-column flex-md-row
+                justify-content-between
+                align-items-md-center
+                gap-3 mb-4">
+
+        <div>
+
+            <div class="d-flex align-items-center gap-2 mb-2">
+
+                <span
+                    class="d-inline-flex align-items-center
+                           justify-content-center"
+                    style="
+                        width:44px;
+                        height:44px;
+                        border-radius:14px;
+                        background:rgba(99,102,241,.15);
+                        color:#818cf8;
+                    "
+                >
+                    <i class="bi bi-shield-lock-fill fs-4"></i>
+                </span>
+
+                <div>
+
+                    <h1 class="h3 fw-bold mb-0">
+                        Admin Dashboard
+                    </h1>
+
+                    <small class="text-muted">
+                        SHSD Link Management Panel
+                    </small>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- QUICK ACTIONS -->
+
+        <div class="d-flex flex-wrap gap-2">
+
+            <a
+                href="{{ url_for('admin_students') }}"
+                class="btn btn-outline-primary"
+            >
+                <i class="bi bi-people me-1"></i>
+                Students
+            </a>
+
+
+            <a
+                href="{{ url_for('admin_broadcast') }}"
+                class="btn btn-primary"
+            >
+                <i class="bi bi-megaphone me-1"></i>
+                SMS Broadcast
+            </a>
+
+        </div>
+
+    </div>
+
+
+    <!-- =====================================================
+         STATISTICS
+         ===================================================== -->
+
+    <div class="row g-3 mb-4">
+
+
+        <!-- STUDENTS -->
+
+        <div class="col-12 col-sm-6 col-xl-3">
+
+            <div
+                class="card h-100 border-0 shadow-sm"
+                style="border-radius:20px;"
+            >
+
+                <div class="card-body p-4">
+
+                    <div
+                        class="d-flex
+                               justify-content-between
+                               align-items-start"
+                    >
+
+                        <div>
+
+                            <p class="text-muted mb-1">
+                                Total Students
+                            </p>
+
+                            <h2 class="fw-bold mb-0">
+                                {{ total_students }}
+                            </h2>
+
+                        </div>
+
+
+                        <div
+                            class="d-flex align-items-center
+                                   justify-content-center"
+                            style="
+                                width:50px;
+                                height:50px;
+                                border-radius:15px;
+                                background:rgba(59,130,246,.12);
+                                color:#60a5fa;
+                            "
+                        >
+                            <i class="bi bi-mortarboard-fill fs-4"></i>
+                        </div>
+
+                    </div>
+
+                    <div class="mt-3">
+
+                        <a
+                            href="{{ url_for('admin_students') }}"
+                            class="small text-decoration-none"
+                        >
+                            View students
+                            <i class="bi bi-arrow-right"></i>
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- TEACHERS -->
+
+        <div class="col-12 col-sm-6 col-xl-3">
+
+            <div
+                class="card h-100 border-0 shadow-sm"
+                style="border-radius:20px;"
+            >
+
+                <div class="card-body p-4">
+
+                    <div
+                        class="d-flex
+                               justify-content-between
+                               align-items-start"
+                    >
+
+                        <div>
+
+                            <p class="text-muted mb-1">
+                                Total Teachers
+                            </p>
+
+                            <h2 class="fw-bold mb-0">
+                                {{ total_teachers }}
+                            </h2>
+
+                        </div>
+
+
+                        <div
+                            class="d-flex align-items-center
+                                   justify-content-center"
+                            style="
+                                width:50px;
+                                height:50px;
+                                border-radius:15px;
+                                background:rgba(16,185,129,.12);
+                                color:#34d399;
+                            "
+                        >
+                            <i class="bi bi-person-workspace fs-4"></i>
+                        </div>
+
+                    </div>
+
+                    <div class="mt-3">
+
+                        <span class="small text-muted">
+                            Registered teachers
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- CHAT -->
+
+        <div class="col-12 col-sm-6 col-xl-3">
+
+            <div
+                class="card h-100 border-0 shadow-sm"
+                style="border-radius:20px;"
+            >
+
+                <div class="card-body p-4">
+
+                    <div
+                        class="d-flex
+                               justify-content-between
+                               align-items-start"
+                    >
+
+                        <div>
+
+                            <p class="text-muted mb-1">
+                                Chat Messages
+                            </p>
+
+                            <h2 class="fw-bold mb-0">
+                                {{ total_chat_messages }}
+                            </h2>
+
+                        </div>
+
+
+                        <div
+                            class="d-flex align-items-center
+                                   justify-content-center"
+                            style="
+                                width:50px;
+                                height:50px;
+                                border-radius:15px;
+                                background:rgba(168,85,247,.12);
+                                color:#c084fc;
+                            "
+                        >
+                            <i class="bi bi-chat-dots-fill fs-4"></i>
+                        </div>
+
+                    </div>
+
+                    <div class="mt-3">
+
+                        <a
+                            href="{{ url_for('public_chat') }}"
+                            class="small text-decoration-none"
+                        >
+                            Open public chat
+                            <i class="bi bi-arrow-right"></i>
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- REQUESTS -->
+
+        <div class="col-12 col-sm-6 col-xl-3">
+
+            <div
+                class="card h-100 border-0 shadow-sm"
+                style="border-radius:20px;"
+            >
+
+                <div class="card-body p-4">
+
+                    <div
+                        class="d-flex
+                               justify-content-between
+                               align-items-start"
+                    >
+
+                        <div>
+
+                            <p class="text-muted mb-1">
+                                Pending Requests
+                            </p>
+
+                            <h2 class="fw-bold mb-0">
+                                {{ pending_requests }}
+                            </h2>
+
+                        </div>
+
+
+                        <div
+                            class="d-flex align-items-center
+                                   justify-content-center"
+                            style="
+                                width:50px;
+                                height:50px;
+                                border-radius:15px;
+                                background:rgba(245,158,11,.12);
+                                color:#fbbf24;
+                            "
+                        >
+                            <i class="bi bi-file-earmark-text-fill fs-4"></i>
+                        </div>
+
+                    </div>
+
+                    <div class="mt-3">
+
+                        <a
+                            href="{{ url_for('request_form') }}"
+                            class="small text-decoration-none"
+                        >
+                            Manage requests
+                            <i class="bi bi-arrow-right"></i>
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- =====================================================
+         MAIN DASHBOARD AREA
+         ===================================================== -->
+
+    <div class="row g-4">
+
+
+        <!-- =================================================
+             STUDENT LIST
+             ================================================= -->
+
+        <div class="col-12 col-xl-7">
+
+            <div
+                class="card border-0 shadow-sm h-100"
+                style="border-radius:20px;"
+            >
+
+                <div class="card-header bg-transparent border-0 p-4">
+
+                    <div
+                        class="d-flex
+                               justify-content-between
+                               align-items-center"
+                    >
+
+                        <div>
+
+                            <h5 class="fw-bold mb-1">
+                                <i class="bi bi-people me-2"></i>
+                                Students
+                            </h5>
+
+                            <small class="text-muted">
+                                Recently registered students
+                            </small>
+
+                        </div>
+
+
+                        <a
+                            href="{{ url_for('admin_students') }}"
+                            class="btn btn-sm btn-outline-primary"
+                        >
+                            View All
+                        </a>
+
+                    </div>
+
+                </div>
+
+
+                <div class="card-body pt-0">
+
+
+                    {% if students %}
+
+                    <div class="table-responsive">
+
+                        <table
+                            class="table table-hover
+                                   align-middle mb-0"
+                        >
+
+                            <thead>
+
+                                <tr>
+
+                                    <th>
+                                        Student
+                                    </th>
+
+                                    <th>
+                                        Class
+                                    </th>
+
+                                    <th>
+                                        Roll
+                                    </th>
+
+                                    <th>
+                                        Status
+                                    </th>
+
+                                </tr>
+
+                            </thead>
+
+
+                            <tbody>
+
+                                {% for student in students[:10] %}
+
+                                <tr>
+
+                                    <td>
+
+                                        <div
+                                            class="d-flex
+                                                   align-items-center
+                                                   gap-2"
+                                        >
+
+                                            <span
+                                                class="d-flex
+                                                       align-items-center
+                                                       justify-content-center"
+                                                style="
+                                                    width:38px;
+                                                    height:38px;
+                                                    border-radius:12px;
+                                                    background:rgba(99,102,241,.12);
+                                                "
+                                            >
+                                                <i
+                                                    class="bi bi-person-fill"
+                                                ></i>
+                                            </span>
+
+
+                                            <div>
+
+                                                <div class="fw-semibold">
+                                                    {{ student.name }}
+                                                </div>
+
+                                                <small class="text-muted">
+                                                    {{ student.username }}
+                                                </small>
+
+                                            </div>
+
+                                        </div>
+
+                                    </td>
+
+
+                                    <td>
+
+                                        {% if student.student_class %}
+                                            {{ student.student_class }}
+                                        {% else %}
+                                            <span class="text-muted">
+                                                —
+                                            </span>
+                                        {% endif %}
+
+                                    </td>
+
+
+                                    <td>
+
+                                        {% if student.roll %}
+                                            {{ student.roll }}
+                                        {% else %}
+                                            <span class="text-muted">
+                                                —
+                                            </span>
+                                        {% endif %}
+
+                                    </td>
+
+
+                                    <td>
+
+                                        {% if student.is_active %}
+
+                                            <span
+                                                class="badge rounded-pill
+                                                       bg-success-subtle
+                                                       text-success"
+                                            >
+                                                <i
+                                                    class="bi bi-check-circle me-1"
+                                                ></i>
+                                                Active
+                                            </span>
+
+                                        {% else %}
+
+                                            <span
+                                                class="badge rounded-pill
+                                                       bg-danger-subtle
+                                                       text-danger"
+                                            >
+                                                <i
+                                                    class="bi bi-x-circle me-1"
+                                                ></i>
+                                                Inactive
+                                            </span>
+
+                                        {% endif %}
+
+                                    </td>
+
+                                </tr>
+
+                                {% endfor %}
+
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+                    {% else %}
+
+                    <div class="text-center py-5">
+
+                        <i
+                            class="bi bi-people display-5
+                                   text-muted"
+                        ></i>
+
+                        <h6 class="mt-3">
+                            No students found
+                        </h6>
+
+                        <p class="text-muted small mb-0">
+                            Student accounts will appear here.
+                        </p>
+
+                    </div>
+
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- =================================================
+             QUICK ACTIONS
+             ================================================= -->
+
+        <div class="col-12 col-xl-5">
+
+            <div
+                class="card border-0 shadow-sm h-100"
+                style="border-radius:20px;"
+            >
+
+                <div class="card-body p-4">
+
+                    <h5 class="fw-bold mb-1">
+                        <i class="bi bi-lightning-charge me-2"></i>
+                        Quick Actions
+                    </h5>
+
+                    <p class="text-muted small mb-4">
+                        Manage your school communication system.
+                    </p>
+
+
+                    <div class="row g-3">
+
+
+                        <div class="col-12">
+
+                            <a
+                                href="{{ url_for('admin_broadcast') }}"
+                                class="text-decoration-none"
+                            >
+
+                                <div
+                                    class="p-3 rounded-4
+                                           border
+                                           d-flex
+                                           align-items-center
+                                           gap-3"
+                                >
+
+                                    <span
+                                        class="d-flex
+                                               align-items-center
+                                               justify-content-center"
+                                        style="
+                                            width:46px;
+                                            height:46px;
+                                            border-radius:14px;
+                                            background:rgba(59,130,246,.12);
+                                            color:#60a5fa;
+                                        "
+                                    >
+                                        <i
+                                            class="bi bi-megaphone-fill fs-5"
+                                        ></i>
+                                    </span>
+
+
+                                    <div class="flex-grow-1">
+
+                                        <div class="fw-semibold">
+                                            Send SMS Broadcast
+                                        </div>
+
+                                        <small class="text-muted">
+                                            Send message to students
+                                        </small>
+
+                                    </div>
+
+
+                                    <i
+                                        class="bi bi-chevron-right
+                                               text-muted"
+                                    ></i>
+
+                                </div>
+
+                            </a>
+
+                        </div>
+
+
+
+                        <div class="col-12">
+
+                            <a
+                                href="{{ url_for('admin_students') }}"
+                                class="text-decoration-none"
+                            >
+
+                                <div
+                                    class="p-3 rounded-4
+                                           border
+                                           d-flex
+                                           align-items-center
+                                           gap-3"
+                                >
+
+                                    <span
+                                        class="d-flex
+                                               align-items-center
+                                               justify-content-center"
+                                        style="
+                                            width:46px;
+                                            height:46px;
+                                            border-radius:14px;
+                                            background:rgba(16,185,129,.12);
+                                            color:#34d399;
+                                        "
+                                    >
+                                        <i
+                                            class="bi bi-person-plus-fill fs-5"
+                                        ></i>
+                                    </span>
+
+
+                                    <div class="flex-grow-1">
+
+                                        <div class="fw-semibold">
+                                            Manage Students
+                                        </div>
+
+                                        <small class="text-muted">
+                                            View student accounts
+                                        </small>
+
+                                    </div>
+
+
+                                    <i
+                                        class="bi bi-chevron-right
+                                               text-muted"
+                                    ></i>
+
+                                </div>
+
+                            </a>
+
+                        </div>
+
+
+
+                        <div class="col-12">
+
+                            <a
+                                href="{{ url_for('public_chat') }}"
+                                class="text-decoration-none"
+                            >
+
+                                <div
+                                    class="p-3 rounded-4
+                                           border
+                                           d-flex
+                                           align-items-center
+                                           gap-3"
+                                >
+
+                                    <span
+                                        class="d-flex
+                                               align-items-center
+                                               justify-content-center"
+                                        style="
+                                            width:46px;
+                                            height:46px;
+                                            border-radius:14px;
+                                            background:rgba(168,85,247,.12);
+                                            color:#c084fc;
+                                        "
+                                    >
+                                        <i
+                                            class="bi bi-chat-left-text-fill fs-5"
+                                        ></i>
+                                    </span>
+
+
+                                    <div class="flex-grow-1">
+
+                                        <div class="fw-semibold">
+                                            Public Chat
+                                        </div>
+
+                                        <small class="text-muted">
+                                            Monitor school communication
+                                        </small>
+
+                                    </div>
+
+
+                                    <i
+                                        class="bi bi-chevron-right
+                                               text-muted"
+                                    ></i>
+
+                                </div>
+
+                            </a>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- =====================================================
+         RECENT BROADCASTS
+         ===================================================== -->
+
+    <div class="card border-0 shadow-sm mt-4"
+         style="border-radius:20px;">
+
+        <div class="card-header bg-transparent border-0 p-4">
+
+            <div
+                class="d-flex
+                       justify-content-between
+                       align-items-center"
+            >
+
+                <div>
+
+                    <h5 class="fw-bold mb-1">
+                        <i class="bi bi-megaphone me-2"></i>
+                        Recent SMS Broadcasts
+                    </h5>
+
+                    <small class="text-muted">
+                        Latest broadcast activity
+                    </small>
+
+                </div>
+
+
+                <a
+                    href="{{ url_for('admin_broadcast') }}"
+                    class="btn btn-sm btn-outline-primary"
+                >
+                    Open Broadcast
+                </a>
+
+            </div>
+
+        </div>
+
+
+        <div class="card-body pt-0">
+
+
+            {% if recent_broadcasts %}
+
+            <div class="table-responsive">
+
+                <table
+                    class="table table-hover
+                           align-middle mb-0"
+                >
+
+                    <thead>
+
+                        <tr>
+
+                            <th>
+                                Message
+                            </th>
+
+                            <th>
+                                Recipients
+                            </th>
+
+                            <th>
+                                Successful
+                            </th>
+
+                            <th>
+                                Failed
+                            </th>
+
+                            <th>
+                                Date
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody>
+
+                        {% for broadcast in recent_broadcasts %}
+
+                        <tr>
+
+                            <td>
+
+                                <div
+                                    style="
+                                        max-width:320px;
+                                        white-space:nowrap;
+                                        overflow:hidden;
+                                        text-overflow:ellipsis;
+                                    "
+                                >
+                                    {{ broadcast.message }}
+                                </div>
+
+                                {% if broadcast.admin_name %}
+
+                                <small class="text-muted">
+                                    By {{ broadcast.admin_name }}
+                                </small>
+
+                                {% endif %}
+
+                            </td>
+
+
+                            <td>
+
+                                <span class="fw-semibold">
+                                    {{ broadcast.total_recipients }}
+                                </span>
+
+                            </td>
+
+
+                            <td>
+
+                                <span
+                                    class="badge rounded-pill
+                                           bg-success-subtle
+                                           text-success"
+                                >
+                                    <i
+                                        class="bi bi-check-circle me-1"
+                                    ></i>
+
+                                    {{ broadcast.successful_count }}
+                                </span>
+
+                            </td>
+
+
+                            <td>
+
+                                {% if broadcast.failed_count > 0 %}
+
+                                <span
+                                    class="badge rounded-pill
+                                           bg-danger-subtle
+                                           text-danger"
+                                >
+                                    <i
+                                        class="bi bi-x-circle me-1"
+                                    ></i>
+
+                                    {{ broadcast.failed_count }}
+                                </span>
+
+                                {% else %}
+
+                                <span
+                                    class="badge rounded-pill
+                                           bg-secondary-subtle
+                                           text-secondary"
+                                >
+                                    0
+                                </span>
+
+                                {% endif %}
+
+                            </td>
+
+
+                            <td>
+
+                                {% if broadcast.created_at %}
+
+                                    <small>
+                                        {{ broadcast.created_at.strftime(
+                                            "%d %b %Y, %I:%M %p"
+                                        ) }}
+                                    </small>
+
+                                {% else %}
+
+                                    <span class="text-muted">
+                                        —
+                                    </span>
+
+                                {% endif %}
+
+                            </td>
+
+                        </tr>
+
+                        {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+            {% else %}
+
+            <div class="text-center py-5">
+
+                <i
+                    class="bi bi-megaphone display-5
+                           text-muted"
+                ></i>
+
+                <h6 class="mt-3">
+                    No broadcast yet
+                </h6>
+
+                <p class="text-muted small">
+                    SMS broadcast history will appear here.
+                </p>
+
+                <a
+                    href="{{ url_for('admin_broadcast') }}"
+                    class="btn btn-primary"
+                >
+                    <i class="bi bi-send me-1"></i>
+                    Send First Broadcast
+                </a>
+
+            </div>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+
+
+    <!-- =====================================================
+         ADMIN SECURITY INFO
+         ===================================================== -->
+
+    <div
+        class="alert mt-4 border-0"
+        style="
+            border-radius:18px;
+            background:rgba(99,102,241,.08);
+        "
+    >
+
+        <div class="d-flex gap-3">
+
+            <i
+                class="bi bi-shield-check fs-4
+                       text-primary"
+            ></i>
+
+            <div>
+
+                <strong>
+                    Admin Access
+                </strong>
+
+                <div class="small text-muted mt-1">
+
+                    এই Dashboard শুধুমাত্র Admin account-এর জন্য।
+                    Student এবং সাধারণ Teacher এখানে প্রবেশ করতে পারবে না।
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}
