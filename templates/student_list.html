@@ -1,0 +1,220 @@
+{% extends "base.html" %}
+
+{% block title %}Student List - SHSD Link{% endblock %}
+
+{% block content %}
+
+<div class="container py-4">
+
+    <!-- Header -->
+    <div class="d-flex flex-wrap justify-content-between align-items-center mb-4">
+
+        <div>
+            <h2 class="fw-bold mb-1">
+                <i class="bi bi-people-fill me-2"></i>
+                Student List
+            </h2>
+
+            <p class="text-secondary mb-0">
+                View students and contact them when necessary.
+            </p>
+        </div>
+
+        <a href="{{ url_for('teacher_dashboard') }}"
+           class="btn btn-outline-primary mt-3 mt-md-0">
+            <i class="bi bi-arrow-left me-1"></i>
+            Dashboard
+        </a>
+
+    </div>
+
+
+    <!-- Search -->
+    <div class="card border-0 shadow-sm mb-4">
+
+        <div class="card-body">
+
+            <form method="GET"
+                  action="{{ url_for('student_list') }}">
+
+                <div class="input-group">
+
+                    <span class="input-group-text">
+                        <i class="bi bi-search"></i>
+                    </span>
+
+                    <input
+                        type="text"
+                        name="q"
+                        class="form-control"
+                        placeholder="Search student..."
+                        value="{{ request.args.get('q', '') }}"
+                    >
+
+                    <button class="btn btn-primary"
+                            type="submit">
+                        Search
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+
+    <!-- Student List -->
+    <div class="card border-0 shadow-sm">
+
+        <div class="card-body">
+
+            <div class="d-flex justify-content-between
+                        align-items-center mb-3">
+
+                <h5 class="fw-bold mb-0">
+                    <i class="bi bi-person-lines-fill me-2"></i>
+                    Students
+                </h5>
+
+                <span class="badge bg-primary">
+                    {{ students|length if students else 0 }}
+                </span>
+
+            </div>
+
+
+            {% if students %}
+
+                <div class="row g-3">
+
+                    {% for student in students %}
+
+                    <div class="col-12 col-md-6 col-lg-4">
+
+                        <div class="card h-100 border">
+
+                            <div class="card-body">
+
+                                <!-- Student Avatar -->
+                                <div class="d-flex align-items-center mb-3">
+
+                                    <div
+                                        class="rounded-circle bg-primary
+                                               text-white d-flex
+                                               align-items-center
+                                               justify-content-center me-3"
+                                        style="width:52px;height:52px;">
+
+                                        <i class="bi bi-person-fill fs-4"></i>
+
+                                    </div>
+
+                                    <div>
+
+                                        <h6 class="fw-bold mb-1">
+                                            {{ student.name|default('Student') }}
+                                        </h6>
+
+                                        <small class="text-secondary">
+                                            Student
+                                        </small>
+
+                                    </div>
+
+                                </div>
+
+
+                                <!-- Student Information -->
+                                <div class="small">
+
+                                    {% if student.username %}
+                                    <div class="mb-2">
+                                        <i class="bi bi-person me-2"></i>
+                                        {{ student.username }}
+                                    </div>
+                                    {% endif %}
+
+
+                                    {% if student.mobile %}
+                                    <div class="mb-2">
+                                        <i class="bi bi-phone me-2"></i>
+                                        {{ student.mobile }}
+                                    </div>
+                                    {% endif %}
+
+
+                                    {% if student.class_name %}
+                                    <div class="mb-2">
+                                        <i class="bi bi-book me-2"></i>
+                                        {{ student.class_name }}
+                                    </div>
+                                    {% endif %}
+
+
+                                    {% if student.roll %}
+                                    <div class="mb-2">
+                                        <i class="bi bi-hash me-2"></i>
+                                        Roll: {{ student.roll }}
+                                    </div>
+                                    {% endif %}
+
+                                </div>
+
+
+                                <!-- Actions -->
+                                <div class="d-grid gap-2 mt-3">
+
+                                    <a
+                                        href="{{ url_for(
+                                            'call_message',
+                                            student_id=student.id
+                                        ) }}"
+                                        class="btn btn-outline-success">
+
+                                        <i class="bi bi-telephone-outbound me-1"></i>
+                                        Call Message
+
+                                    </a>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    {% endfor %}
+
+                </div>
+
+
+            {% else %}
+
+                <!-- Empty State -->
+
+                <div class="text-center py-5">
+
+                    <i class="bi bi-people fs-1 text-secondary"></i>
+
+                    <h5 class="fw-bold mt-3">
+                        No Students Found
+                    </h5>
+
+                    <p class="text-secondary mb-0">
+                        There are no students available to display.
+                    </p>
+
+                </div>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}
