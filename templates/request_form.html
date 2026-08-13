@@ -1,0 +1,187 @@
+{% extends "base.html" %}
+
+{% block title %}Request Form - SHSD Link{% endblock %}
+
+{% block content %}
+
+<div class="container py-4">
+
+    <!-- Header -->
+    <div class="d-flex flex-wrap justify-content-between
+                align-items-center mb-4">
+
+        <div>
+
+            <h2 class="fw-bold mb-1">
+                <i class="bi bi-file-earmark-text-fill me-2"></i>
+                Request Form
+            </h2>
+
+            <p class="text-secondary mb-0">
+                Send a request to your teacher or school authority.
+            </p>
+
+        </div>
+
+        <a
+            href="{{ url_for('dashboard') }}"
+            class="btn btn-outline-primary mt-3 mt-md-0"
+        >
+            <i class="bi bi-arrow-left me-1"></i>
+            Dashboard
+        </a>
+
+    </div>
+
+
+    <!-- Request Form Card -->
+    <div class="row justify-content-center">
+
+        <div class="col-12 col-lg-8">
+
+            <div class="card border-0 shadow-sm">
+
+                <div class="card-body p-4 p-md-5">
+
+                    <div class="text-center mb-4">
+
+                        <div
+                            class="rounded-circle bg-primary text-white
+                                   d-inline-flex align-items-center
+                                   justify-content-center"
+                            style="width:70px;height:70px;"
+                        >
+                            <i class="bi bi-send-fill fs-3"></i>
+                        </div>
+
+                        <h4 class="fw-bold mt-3 mb-1">
+                            Submit a Request
+                        </h4>
+
+                        <p class="text-secondary mb-0">
+                            Write your request clearly so the teacher
+                            can understand it easily.
+                        </p>
+
+                    </div>
+
+
+                    <!-- Form -->
+                    <form
+                        method="POST"
+                        action="{{ url_for('request_form_submit') }}"
+                    >
+
+                        <!-- Subject -->
+                        <div class="mb-4">
+
+                            <label
+                                for="subject"
+                                class="form-label fw-semibold"
+                            >
+                                <i class="bi bi-chat-square-text me-1"></i>
+                                Subject
+                            </label>
+
+                            <input
+                                type="text"
+                                class="form-control"
+                                id="subject"
+                                name="subject"
+                                placeholder="Enter request subject"
+                                maxlength="150"
+                                required
+                            >
+
+                            <div class="form-text">
+                                Example: Leave request, Exam issue,
+                                Certificate request, etc.
+                            </div>
+
+                        </div>
+
+
+                        <!-- Message -->
+                        <div class="mb-4">
+
+                            <label
+                                for="message"
+                                class="form-label fw-semibold"
+                            >
+                                <i class="bi bi-pencil-square me-1"></i>
+                                Message
+                            </label>
+
+                            <textarea
+                                class="form-control"
+                                id="message"
+                                name="message"
+                                rows="7"
+                                maxlength="2000"
+                                placeholder="Write your request here..."
+                                required
+                            ></textarea>
+
+                            <div class="form-text">
+                                Please provide the details of your request.
+                            </div>
+
+                        </div>
+
+
+                        <!-- Submit -->
+                        <div class="d-grid">
+
+                            <button
+                                type="submit"
+                                class="btn btn-primary btn-lg"
+                            >
+
+                                <i class="bi bi-send-fill me-2"></i>
+                                Submit Request
+
+                            </button>
+
+                        </div>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+
+            <!-- Information -->
+            <div
+                class="alert alert-info border-0 shadow-sm mt-4"
+            >
+
+                <div class="d-flex gap-3">
+
+                    <i class="bi bi-info-circle-fill fs-4"></i>
+
+                    <div>
+
+                        <strong>
+                            Important
+                        </strong>
+
+                        <p class="mb-0 mt-1 small">
+                            আপনার request পাঠানোর পর শিক্ষক/প্রশাসন
+                            সেটি review করতে পারবেন। তাই প্রয়োজনীয়
+                            তথ্য পরিষ্কারভাবে লিখুন।
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}
