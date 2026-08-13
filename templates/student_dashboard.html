@@ -1,0 +1,312 @@
+{% extends "base.html" %}
+
+{% block title %}Student Dashboard - SHSD Link{% endblock %}
+
+{% block content %}
+
+<div class="container py-4">
+
+    <!-- Header -->
+    <div class="d-flex flex-wrap justify-content-between align-items-center mb-4">
+
+        <div>
+            <h2 class="fw-bold mb-1">
+                <i class="bi bi-mortarboard-fill me-2"></i>
+                Student Dashboard
+            </h2>
+
+            <p class="text-secondary mb-0">
+                Welcome, {{ session.get('name', 'Student') }}
+            </p>
+        </div>
+
+        <span class="badge rounded-pill bg-primary px-3 py-2 mt-3 mt-md-0">
+            <i class="bi bi-mortarboard me-1"></i>
+            Student
+        </span>
+
+    </div>
+
+
+    <!-- Student Information -->
+    <div class="card border-0 shadow-sm mb-4">
+
+        <div class="card-body">
+
+            <div class="row align-items-center">
+
+                <div class="col-auto">
+                    <div class="rounded-circle bg-primary text-white d-flex
+                                align-items-center justify-content-center"
+                         style="width:70px;height:70px;">
+
+                        <i class="bi bi-person-fill fs-2"></i>
+
+                    </div>
+                </div>
+
+                <div class="col">
+
+                    <h4 class="fw-bold mb-1">
+                        {{ session.get('name', 'Student') }}
+                    </h4>
+
+                    <p class="text-secondary mb-0">
+                        Student Account
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- Quick Actions -->
+    <div class="row g-3 mb-4">
+
+        <!-- Public Chat -->
+        <div class="col-12 col-md-6 col-lg-4">
+
+            <a href="{{ url_for('chat') }}"
+               class="text-decoration-none">
+
+                <div class="card h-100 border-0 shadow-sm">
+
+                    <div class="card-body">
+
+                        <i class="bi bi-chat-dots-fill fs-1 text-primary"></i>
+
+                        <h5 class="fw-bold mt-3">
+                            Public Chat
+                        </h5>
+
+                        <p class="text-secondary mb-0">
+                            Join the school communication chat.
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </a>
+
+        </div>
+
+
+        <!-- Request -->
+        <div class="col-12 col-md-6 col-lg-4">
+
+            <a href="{{ url_for('request_form') }}"
+               class="text-decoration-none">
+
+                <div class="card h-100 border-0 shadow-sm">
+
+                    <div class="card-body">
+
+                        <i class="bi bi-file-earmark-text-fill fs-1 text-warning"></i>
+
+                        <h5 class="fw-bold mt-3">
+                            Send Request
+                        </h5>
+
+                        <p class="text-secondary mb-0">
+                            Send a request to your teacher.
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </a>
+
+        </div>
+
+
+        <!-- Profile -->
+        <div class="col-12 col-md-6 col-lg-4">
+
+            <a href="{{ url_for('profile') }}"
+               class="text-decoration-none">
+
+                <div class="card h-100 border-0 shadow-sm">
+
+                    <div class="card-body">
+
+                        <i class="bi bi-person-circle fs-1 text-success"></i>
+
+                        <h5 class="fw-bold mt-3">
+                            My Profile
+                        </h5>
+
+                        <p class="text-secondary mb-0">
+                            View and manage your profile.
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </a>
+
+        </div>
+
+
+        <!-- Call Message -->
+        <div class="col-12 col-md-6 col-lg-4">
+
+            <a href="{{ url_for('call_message') }}"
+               class="text-decoration-none">
+
+                <div class="card h-100 border-0 shadow-sm">
+
+                    <div class="card-body">
+
+                        <i class="bi bi-telephone-fill fs-1 text-danger"></i>
+
+                        <h5 class="fw-bold mt-3">
+                            Call Message
+                        </h5>
+
+                        <p class="text-secondary mb-0">
+                            Send a call/message request.
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </a>
+
+        </div>
+
+
+        <!-- Dashboard -->
+        <div class="col-12 col-md-6 col-lg-4">
+
+            <a href="{{ url_for('dashboard') }}"
+               class="text-decoration-none">
+
+                <div class="card h-100 border-0 shadow-sm">
+
+                    <div class="card-body">
+
+                        <i class="bi bi-speedometer2 fs-1 text-info"></i>
+
+                        <h5 class="fw-bold mt-3">
+                            Dashboard
+                        </h5>
+
+                        <p class="text-secondary mb-0">
+                            Open your main dashboard.
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </a>
+
+        </div>
+
+
+        <!-- Logout -->
+        <div class="col-12 col-md-6 col-lg-4">
+
+            <a href="{{ url_for('logout') }}"
+               class="text-decoration-none">
+
+                <div class="card h-100 border-0 shadow-sm">
+
+                    <div class="card-body">
+
+                        <i class="bi bi-box-arrow-right fs-1 text-secondary"></i>
+
+                        <h5 class="fw-bold mt-3">
+                            Logout
+                        </h5>
+
+                        <p class="text-secondary mb-0">
+                            Securely logout from your account.
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </a>
+
+        </div>
+
+    </div>
+
+
+    <!-- Recent Requests -->
+    <div class="card border-0 shadow-sm">
+
+        <div class="card-body">
+
+            <h5 class="fw-bold mb-3">
+                <i class="bi bi-clock-history me-2"></i>
+                My Recent Requests
+            </h5>
+
+
+            {% if recent_requests %}
+
+                <div class="list-group">
+
+                    {% for request in recent_requests %}
+
+                    <div class="list-group-item bg-transparent">
+
+                        <div class="d-flex justify-content-between
+                                    align-items-start">
+
+                            <div>
+
+                                <h6 class="fw-bold mb-1">
+                                    {{ request.subject|default('Request') }}
+                                </h6>
+
+                                <p class="text-secondary mb-1">
+                                    {{ request.message|default('No message') }}
+                                </p>
+
+                            </div>
+
+                            <span class="badge bg-secondary">
+                                {{ request.status|default('Pending') }}
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                    {% endfor %}
+
+                </div>
+
+            {% else %}
+
+                <div class="text-center py-4">
+
+                    <i class="bi bi-inbox fs-1 text-secondary"></i>
+
+                    <p class="text-secondary mt-2 mb-0">
+                        You have no recent requests.
+                    </p>
+
+                </div>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}
