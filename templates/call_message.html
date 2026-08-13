@@ -1,0 +1,250 @@
+{% extends "base.html" %}
+
+{% block title %}Call Message - SHSD Link{% endblock %}
+
+{% block content %}
+
+<div class="container py-4">
+
+    <!-- ==============================
+         PAGE HEADER
+         ============================== -->
+
+    <div class="d-flex flex-wrap justify-content-between
+                align-items-center mb-4">
+
+        <div>
+
+            <h2 class="fw-bold mb-1">
+                <i class="bi bi-telephone-outbound-fill me-2"></i>
+                Call Message
+            </h2>
+
+            <p class="text-secondary mb-0">
+                Send an important message to a student.
+            </p>
+
+        </div>
+
+        <a
+            href="{{ url_for('teacher_dashboard') }}"
+            class="btn btn-outline-primary mt-3 mt-md-0"
+        >
+            <i class="bi bi-arrow-left me-1"></i>
+            Dashboard
+        </a>
+
+    </div>
+
+
+    <!-- ==============================
+         MESSAGE FORM
+         ============================== -->
+
+    <div class="row justify-content-center">
+
+        <div class="col-12 col-lg-8">
+
+            <div class="card border-0 shadow-sm">
+
+                <div class="card-body p-4 p-md-5">
+
+                    <!-- Icon -->
+
+                    <div class="text-center mb-4">
+
+                        <div
+                            class="rounded-circle bg-success text-white
+                                   d-inline-flex align-items-center
+                                   justify-content-center"
+                            style="width:72px;height:72px;"
+                        >
+
+                            <i class="bi bi-telephone-fill fs-3"></i>
+
+                        </div>
+
+                        <h4 class="fw-bold mt-3 mb-1">
+                            Send Call Message
+                        </h4>
+
+                        <p class="text-secondary mb-0">
+                            Select a student and write your message.
+                        </p>
+
+                    </div>
+
+
+                    <!-- ==============================
+                         FORM
+                         ============================== -->
+
+                    <form
+                        method="POST"
+                        action="{{ url_for('call_message_send') }}"
+                    >
+
+                        <!-- Student -->
+
+                        <div class="mb-4">
+
+                            <label
+                                for="student_id"
+                                class="form-label fw-semibold"
+                            >
+                                <i class="bi bi-person-fill me-1"></i>
+                                Select Student
+                            </label>
+
+                            <select
+                                id="student_id"
+                                name="student_id"
+                                class="form-select"
+                                required
+                            >
+
+                                <option value="">
+                                    -- Select a student --
+                                </option>
+
+                                {% if students %}
+
+                                    {% for student in students %}
+
+                                    <option
+                                        value="{{ student.id }}"
+                                        {% if selected_student_id
+                                           and selected_student_id|string
+                                           == student.id|string %}
+                                           selected
+                                        {% endif %}
+                                    >
+                                        {{ student.name }}
+                                        {% if student.username %}
+                                            — {{ student.username }}
+                                        {% endif %}
+                                    </option>
+
+                                    {% endfor %}
+
+                                {% endif %}
+
+                            </select>
+
+                        </div>
+
+
+                        <!-- Subject -->
+
+                        <div class="mb-4">
+
+                            <label
+                                for="subject"
+                                class="form-label fw-semibold"
+                            >
+                                <i class="bi bi-chat-square-text me-1"></i>
+                                Subject
+                            </label>
+
+                            <input
+                                type="text"
+                                id="subject"
+                                name="subject"
+                                class="form-control"
+                                placeholder="Enter message subject"
+                                maxlength="150"
+                                required
+                            >
+
+                        </div>
+
+
+                        <!-- Message -->
+
+                        <div class="mb-4">
+
+                            <label
+                                for="message"
+                                class="form-label fw-semibold"
+                            >
+                                <i class="bi bi-pencil-square me-1"></i>
+                                Message
+                            </label>
+
+                            <textarea
+                                id="message"
+                                name="message"
+                                class="form-control"
+                                rows="7"
+                                maxlength="2000"
+                                placeholder="Write your message..."
+                                required
+                            ></textarea>
+
+                            <div class="form-text">
+                                Please write the message clearly.
+                            </div>
+
+                        </div>
+
+
+                        <!-- Submit -->
+
+                        <div class="d-grid">
+
+                            <button
+                                type="submit"
+                                class="btn btn-success btn-lg"
+                            >
+
+                                <i class="bi bi-send-fill me-2"></i>
+                                Send Message
+
+                            </button>
+
+                        </div>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+
+            <!-- ==============================
+                 INFORMATION BOX
+                 ============================== -->
+
+            <div
+                class="alert alert-warning border-0 shadow-sm mt-4"
+            >
+
+                <div class="d-flex gap-3">
+
+                    <i class="bi bi-exclamation-triangle-fill fs-4"></i>
+
+                    <div>
+
+                        <strong>
+                            Important
+                        </strong>
+
+                        <p class="mb-0 mt-1 small">
+                            জরুরি বা গুরুত্বপূর্ণ বিষয় হলে
+                            message-এর মধ্যে প্রয়োজনীয় তথ্য
+                            পরিষ্কারভাবে লিখুন।
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}
